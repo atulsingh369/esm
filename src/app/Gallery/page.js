@@ -4,7 +4,6 @@ import { doc, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import FuncNavbar from "../../../components/FuncNavabr";
 import Footer from "../../../components/Footer";
-import Image from "next/image";
 
 const Gallery = () => {
 	const [data, setData] = useState(null);
@@ -20,7 +19,7 @@ const Gallery = () => {
 		return () => {
 			unsub;
 		};
-	}, []);
+	}, [docRef]);
 
 
 	return (
@@ -36,7 +35,7 @@ const Gallery = () => {
 					<ul className="flex items-center justify-center flex-wrap">
 						{data.map((item, index) => (
 							<li key={index} className="h-72 m-3 hover:scale-105 transition-all ease-in-out duration-300 grow p-2 border-4 items-center border-white rounded-box">
-								<Image
+								<img
 									src={item}
 									alt="Gallery"
 									className="max-h-full min-w-full rounded-box object-cover align-bottom"

@@ -488,7 +488,7 @@ const RegisterForm = () => {
 													<label htmlFor="aad" className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
 
 														<div className="shrink-0">
-															<Image
+															<img
 																className="h-48 w-fit object-contain"
 																src={aadharPic}
 																alt="Aadhar Pic"
@@ -535,7 +535,7 @@ const RegisterForm = () => {
 														<label htmlFor="aad" className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
 
 															<div className="shrink-0">
-																<Image
+																<img
 																	className="h-48 w-fit object-contain"
 																	src={avatar}
 																	alt="Profile Pic"

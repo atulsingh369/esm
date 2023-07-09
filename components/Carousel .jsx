@@ -145,7 +145,7 @@ const Carousel = () => {
                 <div
                   key={index}
                   className="carousel-item h-80 hover:scale-105 transition-all ease-in-out duration-300 ">
-                  <Image
+                  <img
                     src={item}
                     alt="carousel"
                     className="rounded-box w-96"
@@ -156,28 +156,28 @@ const Carousel = () => {
           ) : (
             <div className="moving-images flex space-x-8">
               <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300 ">
-                <Image
+                <img
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/carousel-1.jpg?updatedAt=1684263033199"
                   className="rounded-box w-96"
                   alt="images"
                 />
               </div>
               <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <Image
+                <img
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/sa.jpg?updatedAt=1684843994819"
                   className="rounded-box w-96"
                   alt="images"
                 />
               </div>
               <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <Image
+                <img
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/sds.jpg?updatedAt=1684843998205"
                   className="rounded-box w-96"
                   alt="images"
                 />
               </div>
               <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <Image
+                <img
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/WhatsApp_Image_2023-04-28_at_10.06.28.jpg?updatedAt=1684844000866"
                   className="rounded-box w-96"
                   alt="images"

@@ -99,7 +99,7 @@ const Navbar = () => {
         <div className="flex  justify-between">
           <div className="flex justify-center items-center gap-5">
             <Link href="/">
-              <Image
+              <img
                 src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
                 alt=""
                 className="h-32"
@@ -112,7 +112,7 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="p-2 ">
-            <Image
+            <img
               src="https://ik.imagekit.io/e5ixuxrlb/esm/emblem.png?updatedAt=1685270543927"
               alt="Emblem"
               className="h-28"
@@ -161,9 +161,9 @@ const Navbar = () => {
               <div className="avatar">
                 <div className="w-9 rounded-full">
                   {data ? (
-                    <Image src={data.photoURL} alt="profile" />
+                    <img src={data.photoURL} alt="profile" />
                   ) : (
-                    <Image
+                    <img
                       src="https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697"
                       alt="profile"
                     />
