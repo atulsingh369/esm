@@ -105,7 +105,7 @@
 }
 
 #heading3 {
-	border: 5px solid;
+  border: 5px solid;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   /* background: linear-gradient(90deg, #ff6464 0%, #ffbf59 50%, #47c9ff 100%); */
   border-color: linear-gradient(90deg, #ff6464 0%, #ffbf59 50%, #47c9ff 100%);
@@ -355,4 +355,52 @@
 
 .type1:hover::before {
   transform: translateY(-50px) scale(0) rotate(120deg);
+}
+
+.btn1 {
+	padding: 10px;
+  position: relative;
+  outline: none;
+  background-color: transparent;
+  color: black;
+  transition: 1s;
+  border-radius: 1.3em;
+  font-weight: bold;
+}
+
+.btn1::after {
+  position: absolute;
+  top: -10px;
+  left: 3%;
+  width: 95%;
+  height: 40%;
+  background-color: transparent;
+  transition: 0.5s;
+  transform-origin: center;
+}
+
+.btn1::before {
+  transform-origin: center;
+  position: absolute;
+  top: 80%;
+  left: 3%;
+  width: 95%;
+  height: 40%;
+  background-color: transparent;
+  transition: 0.5s;
+}
+
+.btn1:hover::before,
+.btn1:hover::after {
+  transform: scale(0);
+}
+
+.first:hover {
+  box-shadow: inset 0px 0px 25px #ff671f;
+}
+.second:hover {
+  box-shadow: inset 0px 0px 25px #c8c6c6;
+}
+.third:hover {
+  box-shadow: inset 0px 0px 25px #046a38;
 }
