@@ -54,7 +54,7 @@ const Navbar = () => {
             <label tabIndex={0} className="bg-white btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="h-8 w-8"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -87,11 +87,11 @@ const Navbar = () => {
             </ul>
           </div>
           <Link href="/">
-            <div className="flex justify-start items-center">
+            <div className="flex flex-col md:flex-row justify-start items-center">
               <img
                 src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
                 alt="logo"
-                className="h-20 md:h-32"
+                className="h-20 mr-8 md:mr-0 md:h-32"
               />
               <p className="text-lg md:text-2xl text-[#FF671F] font-semibold p-2">
                 भूतपूर्व सैनिक जन कल्याण समिति
@@ -180,7 +180,7 @@ const Navbar = () => {
                     )}
                   </div>
                 )}
-                <li>
+                <li className="mx-auto">
                   <span onClick={logOut}>Logout</span>
                 </li>
               </ul>

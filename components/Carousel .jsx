@@ -69,20 +69,17 @@ const Carousel = () => {
       //User is dispatched to redux to login
       const res = userCredential.user;
       dispatch(setUser(res));
+      window.scrollTo(0, 0);
       toast.success(`Welcome ${res.displayName}`);
-      setCurUser({
-        email: "",
-        password: "",
-      });
-      setLoading(false);
     } catch (error) {
+      window.scrollTo(0, 0);
       toast.error(error.code);
-      setCurUser({
-        email: "",
-        password: "",
-      });
-      setLoading(false);
     }
+    setCurUser({
+      email: "",
+      password: "",
+    });
+    setLoading(false);
   };
 
   const googleLogin = async () => {
@@ -148,7 +145,7 @@ const Carousel = () => {
                   <img
                     src={item}
                     alt="carousel"
-                    className="rounded-box w-96"
+                    className="rounded-box md:w-96 w-48"
                   />
                 </div>
               ))}
@@ -190,7 +187,7 @@ const Carousel = () => {
         {!user && (
           <div className="w-full border-4 border-[white] border-dashed rounded-lg flex flex-col gap-2 justify-center items-center p-5">
             <div className="form w-full space-y-5 rounded-md h-96">
-              <p id="heading">Sign In Now</p>
+              <p id="heading">Sign In</p>
               <div className="field">
                 <svg
                   className="input-icon"
@@ -256,8 +253,21 @@ const Carousel = () => {
             </div>
           </div>
         )}
+
         <ToastContainer />
       </div>
+
+
+      {/* <div className="mx-auto">
+        <button className="block button4 md:hidde">
+          <span className="circle1"></span>
+          <span className="circle2"></span>
+          <span className="circle3"></span>
+          <span className="circle4"></span>
+          <span className="circle5"></span>
+          <span className="text">SIGN IN</span>
+        </button>
+      </div> */}
     </>
   );
 };
