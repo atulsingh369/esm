@@ -174,7 +174,7 @@ const Navbar = () => {
                 </span>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content menu divide-y-2 divide-base-300 shadow rounded-box w-52">
+                  className="dropdown-content menu bg-base-100 text-white divide-y-2 divide-base-300 shadow rounded-box w-52">
                   {data && (
                     <div className="mx-auto">
                       {data.role == "admin" && (

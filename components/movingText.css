@@ -8,7 +8,7 @@
  .logo-container {
   display: flex;
   gap: 7rem; 
-  animation: rightToLeft 13s linear infinite; 
+  animation: rightToLeft 30s linear infinite; 
   width: 3200px;
   padding: 2em;
   /* overflow: hidden; */

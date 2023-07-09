@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
+import "./movingText.css";
 import { auth, db } from "../src/app/config";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../src/store";
@@ -24,6 +25,7 @@ const Carousel = () => {
     email: "",
     password: "",
   });
+  const containerRef = useRef(null);
 
   const provider = new GoogleAuthProvider();
 
@@ -128,6 +130,19 @@ const Carousel = () => {
     };
   }, [docRef]);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    const handleAnimation = () => {
+      container.style.transform = "translateX(100%)"; // Adjust the translation distance as needed
+    };
+
+    // Start the animation
+    const animationId = setInterval(handleAnimation, 3000); // Adjust the animation duration as needed
+
+    // Clean up the animation on component unmount
+    return () => clearInterval(animationId);
+  }, []);
+
   return (
     <>
       <div
@@ -137,52 +152,20 @@ const Carousel = () => {
             : "flex justify-center p-3 my-5 items-center transition-all ease-in-out duration-300 mt-10"
         }`}>
         <div className="carousel carousel-center p-4 space-x-8 border-4 border-white border-dashed rounded-xl">
-          {data ? (
-            <div className="moving-images items-center flex space-x-8">
-              {data.map((item, index) => (
-                <div
-                  key={index}
-                  className="carousel-item md:h-80 h-32 hover:scale-105 transition-all ease-in-out duration-300 ">
+          <div className="logo-parent-container">
+            {data && (
+              <div className="logo-container" ref={containerRef}>
+                {data.map((item, index) => (
                   <img
                     src={item}
+                    key={index}
                     alt="carousel"
                     className="rounded-box md:w-96 w-48"
                   />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="moving-images flex space-x-8">
-              <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300 ">
-                <img
-                  src="https://ik.imagekit.io/e5ixuxrlb/esm/carousel-1.jpg?updatedAt=1684263033199"
-                  className="rounded-box w-96"
-                  alt="images"
-                />
+                ))}
               </div>
-              <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <img
-                  src="https://ik.imagekit.io/e5ixuxrlb/esm/sa.jpg?updatedAt=1684843994819"
-                  className="rounded-box w-96"
-                  alt="images"
-                />
-              </div>
-              <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <img
-                  src="https://ik.imagekit.io/e5ixuxrlb/esm/sds.jpg?updatedAt=1684843998205"
-                  className="rounded-box w-96"
-                  alt="images"
-                />
-              </div>
-              <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <img
-                  src="https://ik.imagekit.io/e5ixuxrlb/esm/WhatsApp_Image_2023-04-28_at_10.06.28.jpg?updatedAt=1684844000866"
-                  className="rounded-box w-96"
-                  alt="images"
-                />
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {!user && (
