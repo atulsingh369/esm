@@ -133,7 +133,9 @@ const Carousel = () => {
   useEffect(() => {
     const container = containerRef.current;
     const handleAnimation = () => {
-      container.style.transform = "translateX(100%)"; // Adjust the translation distance as needed
+      {
+        data && (container.style.transform = "translateX(100%)");
+      } // Adjust the translation distance as needed
     };
 
     // Start the animation
@@ -151,10 +153,12 @@ const Carousel = () => {
             ? "grid grid-cols-1 md:grid-cols-2 gap-3 p-3 transition-all ease-in-out duration-300 mt-10"
             : "flex justify-center p-3 my-5 items-center transition-all ease-in-out duration-300 mt-10"
         }`}>
-        <div className="carousel carousel-center p-4 space-x-8 border-4 border-white border-dashed rounded-xl">
+        <div className="border-4 border-white border-dashed rounded-xl">
           <div className="logo-parent-container">
             {data && (
-              <div className="logo-container h-64 md:h-96 flex justify-center items-center" ref={containerRef}>
+              <div
+                className="logo-container h-64 md:h-96 flex justify-center items-center"
+                ref={containerRef}>
                 {data.map((item, index) => (
                   <img
                     src={item}
