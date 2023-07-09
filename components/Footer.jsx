@@ -4,7 +4,7 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-transparent border-t-2 border-dashed rounded-5xl mt-16">
+      <footer className="bg-transparent bottom-0 border-t-2 border-dashed rounded-5xl mt-16">
         <div className="flex flex-col space-y-4 md:flex-row justify-evenly items-center my-5 text-neutral-200">
           © 2023 Copyright:
           <Link href="/">
