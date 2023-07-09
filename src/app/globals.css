@@ -212,6 +212,7 @@
 /* moving-text */
 .moving-text {
   animation: rightToLeft 20s infinite linear;
+	overflow-x: hidden;
 }
 
 .moving-images {

@@ -1,7 +1,7 @@
 "use client";
 import Carousel from "../../components/Carousel ";
 import Footer from "../../components/Footer";
-import MovingText from "../../components/MovingText";
+import MovingLogo from "../../components/MovingLogo";
 import Navbar from "../../components/Navbar";
 import authReducer from "../store";
 import { configureStore } from "@reduxjs/toolkit";
@@ -38,7 +38,7 @@ export default function Home() {
 				<PersistGate loading={null} persistor={persistStore(store)}>
 					<Navbar />
 					<Carousel />
-					<MovingText />
+					<MovingLogo />
 					<Footer />
 				</PersistGate>
 			</Provider>

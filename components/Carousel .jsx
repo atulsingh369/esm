@@ -142,7 +142,7 @@ const Carousel = () => {
               {data.map((item, index) => (
                 <div
                   key={index}
-                  className="carousel-item h-80 hover:scale-105 transition-all ease-in-out duration-300 ">
+                  className="carousel-item md:h-80 h-32 hover:scale-105 transition-all ease-in-out duration-300 ">
                   <img
                     src={item}
                     alt="carousel"
