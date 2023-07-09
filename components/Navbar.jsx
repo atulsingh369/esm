@@ -22,7 +22,7 @@ const Navbar = () => {
   const logOut = async () => {
     await signOut(auth)
       .then(() => {
-        toast.success("Log Out sucessfuly");
+        toast.success("Loged Out sucessfuly");
       })
       .catch((error) => {
         toast.error(error.code);
