@@ -12,6 +12,7 @@ import { BiCurrentLocation } from 'react-icons/bi';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import FuncNavbar from "../../../components/FuncNavabr";
 import Footer from "../../../components/Footer";
+import Image from "next/image";
 
 const RegisterForm = () => {
 	const [loading, setLoading] = useState(false);
@@ -487,7 +488,7 @@ const RegisterForm = () => {
 													<label htmlFor="aad" className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
 
 														<div className="shrink-0">
-															<img
+															<Image
 																className="h-48 w-fit object-contain"
 																src={aadharPic}
 																alt="Aadhar Pic"
@@ -534,7 +535,7 @@ const RegisterForm = () => {
 														<label htmlFor="aad" className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
 
 															<div className="shrink-0">
-																<img
+																<Image
 																	className="h-48 w-fit object-contain"
 																	src={avatar}
 																	alt="Profile Pic"

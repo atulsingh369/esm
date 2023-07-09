@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./load.css";
 import GoogleButton from "react-google-button";
+import Image from "next/image";
 
 const Carousel = () => {
   const [loading, setLoading] = useState(false);
@@ -114,53 +115,6 @@ const Carousel = () => {
         password: "",
       });
     }
-    //     await signInWithPopup(auth, provider)
-    //       .then((result) => {
-    //         // This gives you a Google Access Token. You can use it to access the Google API.
-    //         const credential = GoogleAuthProvider.credentialFromResult(result);
-    //         const token = credential.accessToken;
-    //         // The signed-in user info.
-    // 				const user = result.user;
-
-    // //User's data is fetched from firestroe
-    //       const docRef = doc(db, "users", curUser.email);
-    //       const docSnap = await getDoc(docRef);
-    //       if (docSnap.exists()) {
-    //         setURL(docSnap.data().photoURL);
-    //         setRole(docSnap.data().role);
-    //       } else {
-    //         toast.error("Data not Found");
-    //       }
-
-    //       //User's present profile is updated with URL got from firestore
-    //       await updateProfile(userCredential.user, {
-    //         photoURL: url,
-    //         role: role,
-    //       });
-
-    //         toast.success(`Welcome ${user.displayName}`);
-    //         // IdP data available using getAdditionalUserInfo(result)
-    //         dispatch(setUser(user));
-
-    //         setDoc(doc(db, "users", user.email), {
-    //           uid: user.uid,
-    //           displayName: user.displayName,
-    //           photoURL: user.photoURL,
-    //           email: user.email,
-    //         });
-    //       })
-    //       .catch((error) => {
-    //         // Handle Errors here.
-    //         toast.error(error);
-    //         // The email of the user's account used.
-    //         const email = error.customData.email;
-    //         // The AuthCredential type that was used.
-    //         const credential = GoogleAuthProvider.credentialFromError(error);
-    //         setCurUser({
-    //           email: "",
-    //           password: "",
-    //         });
-    //       });
   };
 
   // Getting data
@@ -174,7 +128,7 @@ const Carousel = () => {
     return () => {
       unsub;
     };
-  }, []);
+  }, [docRef]);
 
   return (
     <>
@@ -191,34 +145,42 @@ const Carousel = () => {
                 <div
                   key={index}
                   className="carousel-item h-80 hover:scale-105 transition-all ease-in-out duration-300 ">
-                  <img src={item} className="rounded-box w-96" />
+                  <Image
+                    src={item}
+                    alt="carousel"
+                    className="rounded-box w-96"
+                  />
                 </div>
               ))}
             </div>
           ) : (
             <div className="moving-images flex space-x-8">
               <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300 ">
-                <img
+                <Image
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/carousel-1.jpg?updatedAt=1684263033199"
                   className="rounded-box w-96"
+                  alt="images"
                 />
               </div>
               <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <img
+                <Image
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/sa.jpg?updatedAt=1684843994819"
                   className="rounded-box w-96"
+                  alt="images"
                 />
               </div>
               <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <img
+                <Image
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/sds.jpg?updatedAt=1684843998205"
                   className="rounded-box w-96"
+                  alt="images"
                 />
               </div>
               <div className="carousel-item hover:scale-105 transition-all ease-in-out duration-300  ">
-                <img
+                <Image
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/WhatsApp_Image_2023-04-28_at_10.06.28.jpg?updatedAt=1684844000866"
                   className="rounded-box w-96"
+                  alt="images"
                 />
               </div>
             </div>

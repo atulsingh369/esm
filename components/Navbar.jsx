@@ -8,6 +8,7 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { doc, onSnapshot } from "firebase/firestore";
+import Image from "next/image";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const Navbar = () => {
     return () => {
       unsub;
     };
-  }, [theme]);
+  }, [theme, docRef]);
 
   return (
     <>
@@ -98,7 +99,7 @@ const Navbar = () => {
         <div className="flex  justify-between">
           <div className="flex justify-center items-center gap-5">
             <Link href="/">
-              <img
+              <Image
                 src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
                 alt=""
                 className="h-32"
@@ -111,9 +112,9 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="p-2 ">
-            <img
+            <Image
               src="https://ik.imagekit.io/e5ixuxrlb/esm/emblem.png?updatedAt=1685270543927"
-              alt=""
+              alt="Emblem"
               className="h-28"
             />
           </div>
@@ -160,9 +161,12 @@ const Navbar = () => {
               <div className="avatar">
                 <div className="w-9 rounded-full">
                   {data ? (
-                    <img src={data.photoURL} />
+                    <Image src={data.photoURL} alt="profile" />
                   ) : (
-                    <img src="https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697" />
+                    <Image
+                      src="https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697"
+                      alt="profile"
+                    />
                   )}
                 </div>
               </div>

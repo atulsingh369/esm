@@ -4,6 +4,7 @@ import { db } from "../config";
 import { collection, onSnapshot } from "firebase/firestore";
 import FuncNavbar from "../../../components/FuncNavabr";
 import Footer from "../../../components/Footer";
+import Image from "next/image";
 
 
 const Members = () => {
@@ -30,9 +31,10 @@ const Members = () => {
 				<div className="flex justify-center items-center flex-wrap">
 					{data.map((item, index) => (
 						<div key={index} className="m-3 space-y-3 hover:scale-105 transition-all ease-in-out duration-300 p-2 border-4 items-center border-white rounded-box">
-							<img
+							<Image
 								src={item.photoURL}
 								className="rounded-box h-64 mx-auto object-cover align-bottom"
+								alt="Profile Pic"
 							/>
 							<p className="text-center">{item.displayName}</p>
 							<p className="text-center">{item.serviceNo}</p>

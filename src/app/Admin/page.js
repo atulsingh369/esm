@@ -16,6 +16,7 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "../config";
 import "./load.css";
+import Image from "next/image";
 
 const Admin = () => {
 	const [image, setImage] = useState(null);
@@ -205,7 +206,7 @@ const Admin = () => {
 						</div>
 
 						<div className="md:w-96 md:h-96 w-48 h-48 m-5 mx-12">
-							<img
+							<Image
 								src={data.photoURL}
 								className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box md:rounded-full"
 								alt="Profile"
@@ -238,7 +239,7 @@ const Admin = () => {
 										htmlFor="aad"
 										className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
 										<div className="shrink-0">
-											<img
+											<Image
 												className="h-48 w-fit object-contain"
 												src={photo}
 												alt="Upload in Gallery"
@@ -294,7 +295,7 @@ const Admin = () => {
 										htmlFor="aad"
 										className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
 										<div className="shrink-0">
-											<img
+											<Image
 												className="h-48 w-fit object-contain"
 												src={photo}
 												alt="Upload in Carousel"
