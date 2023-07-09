@@ -26,7 +26,7 @@
 @media only screen and (max-width: 1024px) {
   .logo-container {
     width: fit-content;
-    animation: rightToLeft 25s linear infinite; 
+    animation: rightToLeft 30s linear infinite; 
   }
 }
 
@@ -40,7 +40,7 @@
   .logo-container {
     justify-content: center;
     align-items: center;
-    animation: rightToLeft 25s linear infinite; 
+    animation: rightToLeft 30s linear infinite; 
     width: 100%;
   }
 }

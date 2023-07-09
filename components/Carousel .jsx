@@ -154,13 +154,13 @@ const Carousel = () => {
         <div className="carousel carousel-center p-4 space-x-8 border-4 border-white border-dashed rounded-xl">
           <div className="logo-parent-container">
             {data && (
-              <div className="logo-container" ref={containerRef}>
+              <div className="logo-container h-64 md:h-96 flex justify-center items-center" ref={containerRef}>
                 {data.map((item, index) => (
                   <img
                     src={item}
                     key={index}
                     alt="carousel"
-                    className="rounded-box md:w-96 w-48"
+                    className="rounded-box max-h-full"
                   />
                 ))}
               </div>
