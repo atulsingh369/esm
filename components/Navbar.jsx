@@ -61,14 +61,13 @@ const Navbar = () => {
     <>
       <div className="upper-bar flex flex-row items-center justify-between p-2 border-b-4 border-[#FF671F] ">
         <div className="bar-start-content ">
-          <a className="text-sm font-bold hover:underline cursor-pointer">
+          <Link
+            className="text-sm font-bold hover:underline cursor-pointer"
+            href="/">
             Home
-          </a>
+          </Link>
         </div>
         <div className="bar-end-content flex items-center gap-3 divide-x divide-double">
-          <a className="text-sm font-bold hover:underline cursor-pointer">
-            Skip To Main Content
-          </a>
           <div className="flex ">
             <div className="flex gap-3 pl-1">
               <a>a-</a>
@@ -133,11 +132,15 @@ const Navbar = () => {
           About Us
         </Link>
         <Link
+          target="_blank"
+          rel="noopener noreferrer"
           href="/Members"
           className="btn bg-white border-none text-black font-semibold text-lg hover:bg-[#046A38] hover:text-white hover:font-normal">
           Our Members
         </Link>
         <Link
+          target="_blank"
+          rel="noopener noreferrer"
           href="/Gallery"
           className="btn bg-white border-none text-black font-semibold text-lg hover:bg-[#046A38] hover:text-white hover:font-normal">
           Gallery
@@ -145,6 +148,8 @@ const Navbar = () => {
         {!user ? (
           <div className="flex ">
             <Link
+              target="_blank"
+              rel="noopener noreferrer"
               href="/Register"
               className="btn bg-white border-none text-black font-semibold text-lg hover:bg-[#046A38] hover:text-white hover:font-normal">
               Sign Up
@@ -177,7 +182,10 @@ const Navbar = () => {
               {data && (
                 <div className="mx-auto">
                   {data.role == "admin" && (
-                    <Link href="/Admin">
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="/Admin">
                       <li className="cursor-pointer hover:scale-105 transition-all my-1 mx-auto ease-in-out duration-300">
                         Admin Panel
                       </li>
