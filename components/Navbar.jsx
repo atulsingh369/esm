@@ -87,13 +87,13 @@ const Navbar = () => {
             </ul>
           </div>
           <Link href="/">
-            <div className="flex flex-col md:flex-row justify-start items-center">
+            <div className="flex mr-12 md:mr-0 justify-start items-center">
               <img
                 src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
                 alt="logo"
-                className="h-20 mr-8 md:mr-0 md:h-32"
+                className="h-20 mx-0 md:mx-2 md:h-32"
               />
-              <p className="text-lg md:text-2xl text-[#FF671F] font-semibold p-2">
+              <p className="text-lg hidden mx-0 md:mx-2 md:block md:text-2xl text-[#FF671F] font-semibold">
                 भूतपूर्व सैनिक जन कल्याण समिति
               </p>
             </div>
@@ -133,14 +133,14 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="navbar-end md:mr-10 font-semibold">
+        <div className="navbar-end mx-5 font-semibold">
           {!user ? (
-            <div className="flex ">
+            <div className="flex">
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
                 href="/Register"
-                className="glass hover:scale-105 transition-all ease-in-out duration-300 px-5 py-3 font-semibold rounded-md items-center m-1">
+                className="glass hover:scale-105 transition-all ease-in-out duration-300 px-5 py-3 font-semibold rounded-md items-center">
                 SIGN UP
               </Link>
             </div>
@@ -186,6 +186,11 @@ const Navbar = () => {
               </ul>
             </div>
           )}
+        </div>
+        <div className="navbar-start md:hidden block">
+          <p className="text-lg  md:text-2xl text-[#FF671F] font-semibold">
+            भूतपूर्व सैनिक जन कल्याण समिति
+          </p>
         </div>
         <ToastContainer />
       </div>

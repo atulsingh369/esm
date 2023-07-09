@@ -23,7 +23,7 @@ const MovingText = () => {
 
   return (
     <>
-      <div className="w-full h-10 text-white moving-text overflow-hidden flex justify-center items-center ">
+      <div className="w-full h-10 mt-8 text-white moving-text overflow-hidden flex justify-center items-center ">
         <h1 className="text-2xl font-semibold px-24 whitespace-nowrap">
           Notices
         </h1>

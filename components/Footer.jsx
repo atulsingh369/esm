@@ -1,56 +1,26 @@
+import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
   return (
     <>
-      <div className="py-3 bottom-0">
-        <div className="bg-black h-36 flex flex-col justify-center items-center gap-3">
-          <div className="w-full">
-            <ul className="flex justify-evenly items-center border-b-4 p-2 border-dashed text-white">
-              <li>
-                <a href="#!" className="hover:underline  ">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#!" className="hover:underline  ">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#!" className="hover:underline  ">
-                  How Are We
-                </a>
-              </li>
-              <li>
-                <a href="#!" className="hover:underline  ">
-                  Why Are We
-                </a>
-              </li>
-              <li>
-                <a href="#!" className="hover:underline  ">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="#!" className="hover:underline  ">
-                  FeedBack
-                </a>
-              </li>
-              <li>
-                <a href="#!" className="hover:underline  ">
-                  Tenders
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-gray-600">
-              All Rights Are Reserved By ESM &#64; 2024
+      <footer className="bg-transparent border-t-2 border-dashed rounded-5xl mt-16">
+        <div className="flex flex-col space-y-4 md:flex-row justify-evenly items-center my-5 text-neutral-200">
+          © 2023 Copyright:
+          <Link href="/">
+            <img
+              src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
+              alt="logo"
+              className="h-14 md:h-20"
+            />
+          </Link>
+          <Link href="/">
+            <p className="text-lg underline md:text-xl font-semibold">
+              भूतपूर्व सैनिक जन कल्याण समिति
             </p>
-          </div>
+          </Link>
         </div>
-      </div>
+      </footer>
     </>
   );
 };

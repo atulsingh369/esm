@@ -29,6 +29,7 @@ const Carousel = () => {
 
   const [url, setURL] = useState("");
   const [role, setRole] = useState("");
+  const [logIn, setLogIn] = useState(false);
 
   const user = useSelector((state) => state.user);
 
@@ -132,8 +133,8 @@ const Carousel = () => {
       <div
         className={`${
           !user
-            ? "grid grid-cols-1 md:grid-cols-2 gap-3 p-3 transition-all ease-in-out duration-300"
-            : "flex justify-center p-3 my-5 items-center transition-all ease-in-out duration-300"
+            ? "grid grid-cols-1 md:grid-cols-2 gap-3 p-3 transition-all ease-in-out duration-300 mt-10"
+            : "flex justify-center p-3 my-5 items-center transition-all ease-in-out duration-300 mt-10"
         }`}>
         <div className="carousel carousel-center p-4 space-x-8 border-4 border-white border-dashed rounded-xl">
           {data ? (
@@ -257,9 +258,15 @@ const Carousel = () => {
         <ToastContainer />
       </div>
 
-
-      {/* <div className="mx-auto">
-        <button className="block button4 md:hidde">
+      {/* <div
+        className={`${
+          logIn
+            ? "flex justify-center items-center my-5"
+            : "flex justify-center p-3 my-5 items-center transition-all ease-in-out duration-300 mt-10"
+        }`}>
+        <button
+          className="block button4 md:hidde"
+          onClick={() => setLogIn(true)}>
           <span className="circle1"></span>
           <span className="circle2"></span>
           <span className="circle3"></span>
