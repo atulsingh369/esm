@@ -209,32 +209,6 @@
   background-color: red;
   color: white;
 }
-/* moving-text */
-.moving-text {
-  animation: rightToLeft 20s infinite linear;
-	overflow-x: hidden;
-}
-
-.moving-images {
-  animation: rightToLeftImages 20s infinite linear;
-}
-
-@keyframes rightToLeft {
-  0% {
-    translate: 150%;
-  }
-  100% {
-    translate: -100%;
-  }
-}
-@keyframes rightToLeftImages {
-  0% {
-    translate: 150%;
-  }
-  100% {
-    translate: -100%;
-  }
-}
 
 ::-webkit-scrollbar {
   display: none;

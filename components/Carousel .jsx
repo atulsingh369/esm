@@ -157,7 +157,7 @@ const Carousel = () => {
           <div className="logo-parent-container">
             {data && (
               <div
-                className="logo-container h-64 md:h-96 flex justify-center items-center"
+                className="logo-container1 flex justify-center items-center"
                 ref={containerRef}>
                 {data.map((item, index) => (
                   <img
@@ -175,7 +175,7 @@ const Carousel = () => {
         {!user && (
           <div className="w-full border-4 border-[white] border-dashed rounded-lg flex flex-col gap-2 justify-center items-center p-5">
             <div className="form w-full space-y-5 rounded-md h-96">
-              <p id="heading">Sign In</p>
+              <p id="heading">SIGN IN</p>
               <div className="field">
                 <svg
                   className="input-icon"
@@ -222,20 +222,28 @@ const Carousel = () => {
                   required
                 />
               </div>
-              <button onClick={signIn} className="button1">
-                {loading ? (
-                  <div className="spinner mx-auto">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                ) : (
-                  "Log In"
-                )}
+              <button onClick={signIn} className="button4 w-full">
+                <span className="circle1"></span>
+                <span className="circle2"></span>
+                <span className="circle3"></span>
+                <span className="circle4"></span>
+                <span className="circle5"></span>
+                <span className="text">
+                  {loading ? (
+                    <div class="spinner">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  ) : (
+                    "Log In"
+                  )}
+                </span>
               </button>
+
               {/* <div className="mx-auto"> -- OR -- </div>
               <GoogleButton className="mx-auto" onClick={googleLogin} /> */}
             </div>

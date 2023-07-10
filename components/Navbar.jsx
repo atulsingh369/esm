@@ -100,8 +100,8 @@ const Navbar = () => {
                   alt="logo"
                   className="h-20 mx-0 md:mx-2 md:h-32"
                 />
-                <p className="text-lg hidden mx-0 md:mx-2 md:block md:text-2xl text-[#FF671F] font-semibold">
-                  भूतपूर्व सैनिक जन कल्याण समिति
+                <p className="text-lg hidden md:block md:text-2xl text-[#FF671F] font-semibold">
+                  भूतपूर्व सैनिक जन कल्याण समिति उ.प्र.
                 </p>
               </div>
             </Link>
@@ -152,7 +152,7 @@ const Navbar = () => {
                 </Link>
               </div>
             ) : (
-              <div className="dropdown dropdown-hover">
+              <div className="dropdown dropdown-hover cursor-pointer">
                 <span
                   tabIndex={0}
                   className="flex glass p-1 rounded-md items-center justify-center m-1">
@@ -198,7 +198,7 @@ const Navbar = () => {
         </div>
 
         <p className="text-xl text-center md:hidden block md:text-2xl text-[#FF671F] font-semibold">
-          भूतपूर्व सैनिक जन कल्याण समिति
+          भूतपूर्व सैनिक जन कल्याण समिति उ.प्र.
         </p>
       </div>
     </>

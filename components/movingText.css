@@ -1,46 +1,55 @@
-
-.logo-parent-container{
+.logo-parent-container {
   display: flex;
   background: transparent;
   overflow: hidden;
 }
 
- .logo-container {
+.logo-container {
   display: flex;
-  gap: 7rem; 
-  animation: rightToLeft 30s linear infinite; 
+  gap: 7rem;
+  animation: rightToLeft 30s linear infinite;
   width: 3200px;
   padding: 2em;
   /* overflow: hidden; */
 }
 
+.logo-container1 {
+  display: flex;
+  gap: 7rem;
+  animation: rightToLeft 25s linear infinite;
+  height: 24rem;
+  padding: 2em;
+  margin-top: 2%;
+  /* overflow: hidden; */
+}
+
 @keyframes rightToLeft {
   0% {
-    transform: translateX(1950px);
+    transform: translateX(1500px);
   }
   100% {
-    transform: translateX(-1900px);
+    transform: translateX(-1500px);
   }
 }
 
 @media only screen and (max-width: 1024px) {
   .logo-container {
     width: fit-content;
-    animation: rightToLeft 30s linear infinite; 
+    animation: rightToLeft 30s linear infinite;
   }
 }
 
 .logo {
-  max-width: 100px; 
+  max-width: 100px;
   height: auto;
 }
-
 
 @media only screen and (max-width: 768px) {
   .logo-container {
     justify-content: center;
     align-items: center;
-    animation: rightToLeft 30s linear infinite; 
+    animation: rightToLeft 30s linear infinite;
     width: 100%;
+    height: 16rem;
   }
 }

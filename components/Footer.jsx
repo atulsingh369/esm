@@ -16,7 +16,7 @@ const Footer = () => {
           </Link>
           <Link href="/">
             <p className="text-lg underline md:text-xl font-semibold">
-              भूतपूर्व सैनिक जन कल्याण समिति
+              भूतपूर्व सैनिक जन कल्याण समिति उ.प्र.
             </p>
           </Link>
         </div>

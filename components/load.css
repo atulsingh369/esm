@@ -5,6 +5,7 @@
   --clr-alpha: rgb(247, 197, 159, 0.1);
   animation: spinner 2s infinite ease;
   transform-style: preserve-3d;
+	margin-inline: auto;
 }
 
 .spinner > div {

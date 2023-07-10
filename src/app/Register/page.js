@@ -307,14 +307,13 @@ const RegisterForm = () => {
 								<span className="circle5"></span>
 								<span className="text">
 									{loading ? (
-										<div className="wrapper">
-											<div className="circle" />
-											<div className="circle" />
-											<div className="circle" />
-											<div className="shadow" />
-											<div className="shadow" />
-											<div className="shadow" />
-										</div>
+										<section class="dots-container">
+											<div class="dot"></div>
+											<div class="dot"></div>
+											<div class="dot"></div>
+											<div class="dot"></div>
+											<div class="dot"></div>
+										</section>
 									) : ("Sign Up")}
 								</span>
 							</button>
@@ -439,14 +438,13 @@ const RegisterForm = () => {
 											<span className="circle5"></span>
 											<span className="text">
 												{loading ? (
-													<div className="wrapper">
-														<div className="circle" />
-														<div className="circle" />
-														<div className="circle" />
-														<div className="shadow" />
-														<div className="shadow" />
-														<div className="shadow" />
-													</div>
+													<section class="dots-container">
+														<div class="dot"></div>
+														<div class="dot"></div>
+														<div class="dot"></div>
+														<div class="dot"></div>
+														<div class="dot"></div>
+													</section>
 												) : ("Save & Next")}
 											</span>
 										</button>
@@ -510,14 +508,13 @@ const RegisterForm = () => {
 														<span className="circle5"></span>
 														<span className="text">
 															{loading ? (
-																<div className="wrapper">
-																	<div className="circle" />
-																	<div className="circle" />
-																	<div className="circle" />
-																	<div className="shadow" />
-																	<div className="shadow" />
-																	<div className="shadow" />
-																</div>
+																<section class="dots-container">
+																	<div class="dot"></div>
+																	<div class="dot"></div>
+																	<div class="dot"></div>
+																	<div class="dot"></div>
+																	<div class="dot"></div>
+																</section>
 															) : ("Save & Next")}
 														</span>
 													</button>
