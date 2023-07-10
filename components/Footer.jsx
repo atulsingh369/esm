@@ -19,10 +19,10 @@ const Footer = () => {
               भूतपूर्व सैनिक जन कल्याण समिति
             </p>
           </Link>
-				</div>
-				
+        </div>
+
         <div className="flex text-md font-semibold items-center justify-between">
-          <p>Made with 💓</p>
+          <p>Made with ❤️</p>
           <p>-By Atul Singh</p>
         </div>
       </footer>
