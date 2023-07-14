@@ -151,9 +151,9 @@ const Carousel = () => {
       <div
         className={`${
           !user
-            ? "grid grid-cols-1 md:grid-cols-2 gap-3 p-3 transition-all ease-in-out duration-300 mt-10"
-            : "flex justify-center p-3 my-5 items-center transition-all ease-in-out duration-300 mt-10"
-        }`}>
+            ? "grid grid-cols-1 md:grid-cols-2 gap-3 "
+            : "flex justify-center my-5 items-center"
+        } p-3 transition-all ease-in-out duration-300 mt-10`}>
         <div className="border-4 border-white border-dashed rounded-xl">
           <div className="logo-parent-container">
             {data && (
@@ -162,7 +162,7 @@ const Carousel = () => {
                 ref={containerRef}>
                 {data.map((item, index) => (
                   <img
-                    src={item}
+                    src={item.URL}
                     key={index}
                     alt="carousel"
                     className="rounded-box max-h-full"

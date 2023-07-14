@@ -24,7 +24,8 @@ const Admin = () => {
 	const [photo, setPhoto] = useState(
 		"https://ik.imagekit.io/xji6otwwkb/ESM/bg.jpg?updatedAt=1689049226559"
 	);                                     // Store location of image in local device before uploading
-	const [name, setName] = useState("");  // Store name of image uploaded/(to be deleted)
+	const [name, setName] = useState("");  // Store name of image uploaded
+	const [delName, setDelName] = useState([]);  // Store name of image to be deleted
 	const [adminData, setAdminData] = useState([]);  // Store Admin Details
 	const [note, setNote] = useState("");  // Store Notice uploaded by Admin
 
@@ -36,14 +37,18 @@ const Admin = () => {
 	const [delnotice, setDelNotice] = useState(false); // Store Admin prmission to delete in Notice
 
 	const [data, setData] = useState(null) // Store Current data of Gallery/Carousel/Notice
+	const [checked, setChecked] = useState(false) // Check whether checkbox is checked or not
 
 
+	
 	//Displaying Photo
 	const handleChange = async (e) => {
 		setImage(e.target.files[0]);
 		setPhoto(URL.createObjectURL(e.target.files[0]));
 		setName(e.target.files[0].name);
 	};
+
+
 
 	//Displaying Gallery Data
 	const dispGal = async () => {
@@ -57,21 +62,11 @@ const Admin = () => {
 				setData(docSnap.data().images)
 
 			} else {
-				// docSnap.data() will be undefined in this case
 				console.log("No such document!");
 			}
 
-			// if (docSnap.data().images.length > 0) {
-			// 	setData(doc.data().images);
-			// 	console.log("Data");
-			// }
-			// else {
-			// 	console.log("No Data");
-			// 	setData(await getDoc(docRef).data().images)
-			// }
-
-
 			setDelGallery(true);
+			setGalery(false);
 
 		} catch (error) {
 			toast.error(error)
@@ -134,30 +129,15 @@ const Admin = () => {
 		setLoading(false);
 	};
 
-
 	//Delete Gallery
 	const delGal = async () => {
 		setLoading(true);
 
 		try {
-			data.find((value) => {
-				if (name === value.Name) {
-					present = true;
-					return;
-				}
-			})
-			if (!present) {
-				toast.error("Photo Not Found");
-				setName("");
-				setLoading(false);
-				setData(null)
-				return;
-			}
-
-			// data = data.filter(element => element.Name !== name);
+			var myArray = data.filter((item) => !delName.includes(item.Name));
 
 			await setDoc(doc(db, "gallery", "images"), {
-				images: [...data],
+				images: [...myArray],
 			});
 			toast.success("Photo Deleted Succesfully")
 
@@ -165,9 +145,38 @@ const Admin = () => {
 			toast.error(error)
 		}
 		setName("");
+		setDelName([]);
 		setDelGallery(false);
 		setLoading(false);
-		setData(null)
+		setData(null);
+		setChecked(false);
+		myArray = null;
+	}
+
+
+
+	//Displaying Carousel Data
+	const dispCar = async () => {
+		setLoading(true);
+
+		const docRef = doc(db, "carousel", "images");
+		try {
+			const docSnap = await getDoc(docRef);
+
+			if (docSnap.exists()) {
+				setData(docSnap.data().images)
+
+			} else {
+				console.log("No such document!");
+			}
+
+			setDelCarousel(true);
+			setCarousel(false);
+
+		} catch (error) {
+			toast.error(error)
+		}
+		setLoading(false);
 	}
 
 	//Uploading Carousel
@@ -190,20 +199,27 @@ const Admin = () => {
 			await uploadBytes(imageRef, image);
 			const url = await getDownloadURL(imageRef);
 
+			//Saving URL of photo in JSON format
+			var imgData = { Name: name, URL: url }
+			// Checking for Data
+			if (!imgData) {
+				toast.error("Photo not Uploaded");
+				setImage(null);
+				setName("");
+				setCarousel(false);
+				setLoading(false);
+				return;
+			}
 			// If data exist save it to array otherwise create new
 			if (docSnap.exists()) {
 				await setDoc(doc(db, "carousel", "images"), {
-					images: [...docSnap.data().images, url],
+					images: [...docSnap.data().images, imgData]
 				});
 			} else {
 				await setDoc(doc(db, "carousel", "images"), {
-					images: [url],
+					images: [imgData],
 				});
 			}
-
-			setPhoto(
-				"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697"
-			);
 			toast.success("Photo Uploaded Succesfully");
 			setTimeout(() => {
 				setCarousel(false);
@@ -216,6 +232,32 @@ const Admin = () => {
 			setCarousel(false);
 		}
 	};
+
+	//Delete Carousel
+	const delCar = async () => {
+		setLoading(true);
+
+		try {
+			var myArray = data.filter((item) => !delName.includes(item.Name));
+
+			await setDoc(doc(db, "carousel", "images"), {
+				images: [...myArray],
+			});
+			toast.success("Photo Deleted Succesfully")
+
+		} catch (error) {
+			toast.error(error)
+		}
+		setName("");
+		setDelName([]);
+		setDelCarousel(false);
+		setLoading(false);
+		setData(null);
+		setChecked(false);
+		myArray = null;
+	}
+
+
 
 	//Uploading Notice
 	const notices = async () => {
@@ -261,6 +303,9 @@ const Admin = () => {
 		setNotice(false);
 		setDelNotice(false);
 		setData(null);
+		setName(null);
+		setChecked(false);
+		setPhoto("https://ik.imagekit.io/xji6otwwkb/ESM/bg.jpg?updatedAt=1689049226559");
 	}
 
 	useEffect(() => {
@@ -278,7 +323,6 @@ const Admin = () => {
 			unsubscribe;
 		};
 	}, []);
-
 
 	return (
 		<>
@@ -323,7 +367,10 @@ const Admin = () => {
 							{/* Upload Gallery Images */}
 							{!gallery ? (
 								<button
-									onClick={() => setGalery(true)}
+									onClick={() => {
+										setGalery(true);
+										setDelGallery(false);
+									}}
 									className="button4 mx-auto mt-10">
 									<span className="circle1"></span>
 									<span className="circle2"></span>
@@ -407,24 +454,36 @@ const Admin = () => {
 										</svg>
 									</span>
 
-
 									{data ? (
 										data.map((item, index) => (
-											<div key={index} className="flex w-full justify-between rounded-xl mt-10 items-center border-2 border-dashed p-2 flex-row">
-												<p>{item.Name}</p>
-												<div className="h-24 w-24 items-center">
-													<img
-														src={item.URL}
-														alt="Gallery"
-														className="max-h-full min-w-full rounded-box object-cover"
-													/>
+											<label
+												htmlFor={item.Name}
+												key={index}
+												onChange={(e) => { e.target.checked ? setChecked(true) : index }}
+											>
+												<div className="flex w-full cursor-pointer justify-between rounded-xl mt-10 items-center border-2 border-dashed p-2 flex-row">
+													<p>{item.Name}</p>
+													<input
+														id={item.Name}
+														type="checkbox"
+														onChange={(e) => {
+															delName.length > 0 ?
+																setDelName([...delName, e.target.id]) : setDelName([e.target.id]);
+														}}
+														className={`${checked ? "w-7 h-7 rounded-xl" : "hidden"} accent-blue-500`} />
+													<div className="h-24 w-24 items-center">
+														<img
+															src={item.URL}
+															alt="Gallery"
+															className="max-h-full min-w-full rounded-box object-cover"
+														/>
+													</div>
 												</div>
-											</div>
+											</label>
 										))
 									) : (
 										<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>
 									)}
-
 
 									<button
 										onClick={delGal}
@@ -451,7 +510,10 @@ const Admin = () => {
 							{/* Upload Carousel Images */}
 							{!carousel ? (
 								<button
-									onClick={() => setCarousel(true)}
+									onClick={() => {
+										setCarousel(true);
+										setDelCarousel(false);
+									}}
 									className="button4 mx-auto mt-10">
 									<span className="circle1"></span>
 									<span className="circle2"></span>
@@ -502,7 +564,7 @@ const Admin = () => {
 							{/* Delete Carousel Images */}
 							{!delcarousel ? (
 								<button
-									onClick={() => setDelCarousel(true)}
+									onClick={dispCar}
 									className="button4 mx-auto mt-10">
 									<span className="circle1"></span>
 									<span className="circle2"></span>
@@ -524,21 +586,50 @@ const Admin = () => {
 											<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
 										</svg>
 									</span>
-									<div className="field">
-										<input
-											name="name"
-											required
-											placeholder="Enter name of Photo"
-											className="input-field"
-											type="text"
-											onChange={(e) => setName(e.target.value)}
-											value={name}
-										/>
-									</div>
+
+									{data ? (
+										data.map((item, index) => (
+											<label
+												htmlFor={item.Name}
+												key={index}
+												onChange={(e) => { e.target.checked ? setChecked(true) : index }}
+											>
+												<div className="flex w-full cursor-pointer justify-between rounded-xl mt-10 items-center border-2 border-dashed p-2 flex-row">
+													<p>{item.Name}</p>
+													<input
+														id={item.Name}
+														type="checkbox"
+														onChange={(e) => {
+															delName.length > 0 ?
+																setDelName([...delName, e.target.id]) : setDelName([e.target.id]);
+														}}
+														className={`${checked ? "w-7 h-7 rounded-xl" : "hidden"} accent-blue-500`} />
+													<div className="h-24 w-24 items-center">
+														<img
+															src={item.URL}
+															alt="Gallery"
+															className="max-h-full min-w-full rounded-box object-cover"
+														/>
+													</div>
+												</div>
+											</label>
+										))
+									) : (
+										<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>
+									)}
 
 									<button
-										onClick={delGal}
-										className="button5 content2 mt-10 type1"></button>
+										onClick={delCar}
+										className="button5 content2 mt-10 type1">{loading &&
+											<div className="spinner">
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+											</div>
+										}</button>
 
 								</div>
 							)}
