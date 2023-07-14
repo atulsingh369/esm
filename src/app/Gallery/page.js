@@ -13,7 +13,9 @@ const Gallery = () => {
 
 	useEffect(() => {
 		const unsub = onSnapshot(docRef, (doc) => {
-			setData(doc.data().images);
+			if (doc.data().images.length > 0) {
+				setData(doc.data().images);
+			}
 		});
 
 		return () => {
@@ -36,7 +38,7 @@ const Gallery = () => {
 						{data.map((item, index) => (
 							<li key={index} className="h-72 m-3 hover:scale-105 transition-all ease-in-out duration-300 grow p-2 border-4 items-center border-white rounded-box">
 								<img
-									src={item}
+									src={item.URL}
 									alt="Gallery"
 									className="max-h-full min-w-full rounded-box object-cover align-bottom"
 								/>

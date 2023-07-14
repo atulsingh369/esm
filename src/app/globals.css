@@ -8,27 +8,6 @@
   box-sizing: border-box;
 }
 
-/* navbar-dark-light-toggle */
-.toggle-switch {
-  position: relative;
-  width: 100px;
-  height: fit-content;
-  --light: #d8dbe0;
-  --dark: #28292c;
-  --link: rgb(27, 129, 112);
-  --link-hover: rgb(24, 94, 82);
-}
-
-.switch-label {
-  position: absolute;
-  width: 100%;
-  height: 50px;
-  background-color: var(--dark);
-  border-radius: 25px;
-  cursor: pointer;
-  border: 3px solid var(--dark);
-}
-
 .checkbox {
   position: absolute;
   display: none;
@@ -288,8 +267,20 @@
   box-shadow: 0.5px 0.5px 150px #252525;
 }
 
-.type1::after {
+.content1::after{
   content: "Thanks";
+}
+.content1::before{
+  content: "Upload";
+}
+.content2::after{
+  content: "Thanks";
+}
+.content2::before{
+  content: "Delete";
+}
+
+.type1::after {
   height: 50px;
   width: 100%;
   background-color: #ff671f;
@@ -307,7 +298,6 @@
 }
 
 .type1::before {
-  content: "Upload";
   height: 50px;
   width: 100%;
   background-color: #fff;

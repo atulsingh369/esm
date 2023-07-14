@@ -19,17 +19,24 @@ import "./load.css";
 import Image from "next/image";
 
 const Admin = () => {
-	const [image, setImage] = useState(null);
+	const [loading, setLoading] = useState(false);  // Loading/Unloading
+	const [image, setImage] = useState(null);  // Store image uploaded
 	const [photo, setPhoto] = useState(
-		"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697"
-	);
-	const [name, setName] = useState("");
-	const [data, setData] = useState([]);
-	const [note, setNote] = useState("");
+		"https://ik.imagekit.io/xji6otwwkb/ESM/bg.jpg?updatedAt=1689049226559"
+	);                                     // Store location of image in local device before uploading
+	const [name, setName] = useState("");  // Store name of image uploaded/(to be deleted)
+	const [adminData, setAdminData] = useState([]);  // Store Admin Details
+	const [note, setNote] = useState("");  // Store Notice uploaded by Admin
 
-	const [gallery, setGalery] = useState(false);
-	const [carousel, setCarousel] = useState(false);
-	const [notice, setNotice] = useState(false);
+	const [gallery, setGalery] = useState(false); // Store Admin prmission to upload in Gallery
+	const [delgallery, setDelGallery] = useState(false); // Store Admin prmission to delete in Gallery
+	const [carousel, setCarousel] = useState(false); // Store Admin prmission to upload in Carousel
+	const [delcarousel, setDelCarousel] = useState(false); // Store Admin prmission to delete in Carousel
+	const [notice, setNotice] = useState(false); // Store Admin prmission to upload in Notice
+	const [delnotice, setDelNotice] = useState(false); // Store Admin prmission to delete in Notice
+
+	const [data, setData] = useState(null) // Store Current data of Gallery/Carousel/Notice
+
 
 	//Displaying Photo
 	const handleChange = async (e) => {
@@ -38,13 +45,48 @@ const Admin = () => {
 		setName(e.target.files[0].name);
 	};
 
+	//Displaying Gallery Data
+	const dispGal = async () => {
+		setLoading(true);
+
+		const docRef = doc(db, "gallery", "images");
+		try {
+			const docSnap = await getDoc(docRef);
+
+			if (docSnap.exists()) {
+				setData(docSnap.data().images)
+
+			} else {
+				// docSnap.data() will be undefined in this case
+				console.log("No such document!");
+			}
+
+			// if (docSnap.data().images.length > 0) {
+			// 	setData(doc.data().images);
+			// 	console.log("Data");
+			// }
+			// else {
+			// 	console.log("No Data");
+			// 	setData(await getDoc(docRef).data().images)
+			// }
+
+
+			setDelGallery(true);
+
+		} catch (error) {
+			toast.error(error)
+		}
+		setLoading(false);
+	}
+
 	//Uploading Gallery
 	const upload = async () => {
+		setLoading(true);
 		try {
 			if (!image) {
 				toast.error("Photo not Selected");
 				setPhoto(
-					"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697"
+					"https://ik.imagekit.io/xji6otwwkb/ESM/bg.jpg?updatedAt=1689049226559"
 				);
 				return;
 			}
@@ -58,32 +100,75 @@ const Admin = () => {
 			await uploadBytes(imageRef, image);
 			const url = await getDownloadURL(imageRef);
 
+			//Saving URL of photo in JSON format
+			var imgData = { Name: name, URL: url }
+			// Checking for Data
+			if (!imgData) {
+				toast.error("Photo not Uploaded");
+				setImage(null);
+				setName("");
+				setGalery(false);
+				setLoading(false);
+				return;
+			}
 			// If data exist save it to array otherwise create new
 			if (docSnap.exists()) {
 				await setDoc(doc(db, "gallery", "images"), {
-					images: [...docSnap.data().images, url],
+					images: [...docSnap.data().images, imgData]
 				});
 			} else {
 				await setDoc(doc(db, "gallery", "images"), {
-					images: [url],
+					images: [imgData],
 				});
 			}
-
-			setPhoto(
-				"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697"
-			);
 			toast.success("Photo Uploaded Succesfully");
-			setTimeout(() => {
-				setGalery(false);
-			}, 1500);
 		} catch (error) {
 			toast.error(error.code);
-			setPhoto(
-				"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697"
-			);
-			setGalery(false);
 		}
+		setPhoto(
+			"https://ik.imagekit.io/xji6otwwkb/ESM/bg.jpg?updatedAt=1689049226559"
+		);
+		setImage(null);
+		setName("");
+		setGalery(false);
+		setLoading(false);
 	};
+
+
+	//Delete Gallery
+	const delGal = async () => {
+		setLoading(true);
+
+		try {
+			data.find((value) => {
+				if (name === value.Name) {
+					present = true;
+					return;
+				}
+			})
+			if (!present) {
+				toast.error("Photo Not Found");
+				setName("");
+				setLoading(false);
+				setData(null)
+				return;
+			}
+
+			// data = data.filter(element => element.Name !== name);
+
+			await setDoc(doc(db, "gallery", "images"), {
+				images: [...data],
+			});
+			toast.success("Photo Deleted Succesfully")
+
+		} catch (error) {
+			toast.error(error)
+		}
+		setName("");
+		setDelGallery(false);
+		setLoading(false);
+		setData(null)
+	}
 
 	//Uploading Carousel
 	const carusl = async () => {
@@ -167,13 +252,24 @@ const Admin = () => {
 		}
 	};
 
-	//Getting Data
+	//Cancel all Business
+	const cancel = () => {
+		setGalery(false);
+		setDelGallery(false);
+		setCarousel(false);
+		setDelCarousel(false);
+		setNotice(false);
+		setDelNotice(false);
+		setData(null);
+	}
+
 	useEffect(() => {
+		//Getting Admin Data
 		const unsubscribe = onSnapshot(
 			query(collection(db, "users"), where("role", "==", "admin")),
 			(querySnapshot) => {
 				querySnapshot.forEach((doc) => {
-					setData(doc.data());
+					setAdminData(doc.data());
 				});
 			}
 		);
@@ -183,6 +279,7 @@ const Admin = () => {
 		};
 	}, []);
 
+
 	return (
 		<>
 			<FuncNavbar />
@@ -190,24 +287,24 @@ const Admin = () => {
 				<h1 id="heading1">Admin Panel</h1>
 
 				{/* Admin Info */}
-				{data ? (
+				{adminData ? (
 					<div className="flex flex-col-reverse md:flex-row justify-center items-center">
 						<div className="flex hover:scale-105 transition-all ease-in-out duration-300 flex-col space-y-4 justify-center items-center">
 							<p className="text-xl md:text-2xl font-semibold">
-								Mr. {data.displayName}
+								Mr. {adminData.displayName}
 							</p>
 							<p className="text-xl md:text-2xl font-semibold">
-								{data.serviceField}
+								{adminData.serviceField}
 							</p>
 							<p className="text-xl md:text-2xl font-semibold">
-								{data.phoneNo}
+								{adminData.phoneNo}
 							</p>
-							<p className="text-xl md:text-2xl font-semibold">{data.email}</p>
+							<p className="text-xl md:text-2xl font-semibold">{adminData.email}</p>
 						</div>
 
 						<div className="md:w-96 md:h-96 w-48 h-48 m-5 mx-12">
 							<img
-								src={data.photoURL}
+								src={adminData.photoURL}
 								className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box md:rounded-full"
 								alt="Profile"
 							/>
@@ -218,10 +315,12 @@ const Admin = () => {
 				)}
 
 				<section className="flex flex-col space-y-40 justify-evenly m-10 mt-72 text-xl">
+
 					{/* Gallery */}
 					<div>
 						<p className="text-3xl text-center">Gallery</p>
 						<div className="flex justify-around flex-col md:flex-row space-y-6 items-center">
+							{/* Upload Gallery Images */}
 							{!gallery ? (
 								<button
 									onClick={() => setGalery(true)}
@@ -234,7 +333,18 @@ const Admin = () => {
 									<span className="text">Upload Images</span>
 								</button>
 							) : (
-								<div className="space-y-6 mx-auto w-full md:w-1/2">
+								<div className="space-y-6 mx-auto mt-10 w-full md:w-1/2">
+									<span onClick={cancel} className="float-right m-5 cursor-pointer">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="input-icon"
+											viewBox="0 0 384 512">
+											<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+										</svg>
+									</span>
 									<label
 										htmlFor="aad"
 										className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
@@ -256,21 +366,81 @@ const Admin = () => {
 
 									<button
 										onClick={upload}
-										className="button5 mt-10 type1"></button>
+										className="button5 mt-10 content1 type1">
+										{loading &&
+											<div className="spinner">
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+											</div>
+										}</button>
 
-									<ToastContainer />
+
 								</div>
 							)}
-							<button
-								onClick={() => setGalery(true)}
-								className="button4 mx-auto mt-10">
-								<span className="circle1"></span>
-								<span className="circle2"></span>
-								<span className="circle3"></span>
-								<span className="circle4"></span>
-								<span className="circle5"></span>
-								<span className="text">Delete Images</span>
-							</button>
+							{/* Delete Gallery Images */}
+							{!delgallery ? (
+								<button
+									onClick={dispGal}
+									className="button4 mx-auto mt-10">
+									<span className="circle1"></span>
+									<span className="circle2"></span>
+									<span className="circle3"></span>
+									<span className="circle4"></span>
+									<span className="circle5"></span>
+									<span className="text">Delete Images</span>
+								</button>
+							) : (
+								<div className="space-y-6 mt-12 mx-auto md:w-1/2 w-full">
+									<span onClick={cancel} className="float-right m-5 cursor-pointer">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="input-icon"
+											viewBox="0 0 384 512">
+											<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+										</svg>
+									</span>
+
+
+									{data ? (
+										data.map((item, index) => (
+											<div key={index} className="flex w-full justify-between rounded-xl mt-10 items-center border-2 border-dashed p-2 flex-row">
+												<p>{item.Name}</p>
+												<div className="h-24 w-24 items-center">
+													<img
+														src={item.URL}
+														alt="Gallery"
+														className="max-h-full min-w-full rounded-box object-cover"
+													/>
+												</div>
+											</div>
+										))
+									) : (
+										<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>
+									)}
+
+
+									<button
+										onClick={delGal}
+										className="button5 content2 mt-10 type1">{loading &&
+											<div className="spinner">
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+											</div>
+										}</button>
+
+								</div>
+							)}
 						</div>
 					</div>
 
@@ -278,6 +448,7 @@ const Admin = () => {
 					<div>
 						<p className="text-3xl text-center">Carousel</p>
 						<div className="flex justify-around flex-col md:flex-row space-y-6 items-center">
+							{/* Upload Carousel Images */}
 							{!carousel ? (
 								<button
 									onClick={() => setCarousel(true)}
@@ -291,6 +462,17 @@ const Admin = () => {
 								</button>
 							) : (
 								<div className="space-y-6 mx-auto w-full md:w-1/2">
+									<span onClick={cancel} className="float-right m-5 cursor-pointer">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="input-icon"
+											viewBox="0 0 384 512">
+											<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+										</svg>
+									</span>
 									<label
 										htmlFor="aad"
 										className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
@@ -312,21 +494,54 @@ const Admin = () => {
 
 									<button
 										onClick={carusl}
-										className="button5 mt-10 type1"></button>
+										className="button5 mt-10 content1 type1"></button>
 
-									<ToastContainer />
+
 								</div>
 							)}
-							<button
-								onClick={() => setNotice(true)}
-								className="button4 mx-auto mt-10">
-								<span className="circle1"></span>
-								<span className="circle2"></span>
-								<span className="circle3"></span>
-								<span className="circle4"></span>
-								<span className="circle5"></span>
-								<span className="text">Delete Images</span>
-							</button>
+							{/* Delete Carousel Images */}
+							{!delcarousel ? (
+								<button
+									onClick={() => setDelCarousel(true)}
+									className="button4 mx-auto mt-10">
+									<span className="circle1"></span>
+									<span className="circle2"></span>
+									<span className="circle3"></span>
+									<span className="circle4"></span>
+									<span className="circle5"></span>
+									<span className="text">Delete Images</span>
+								</button>
+							) : (
+								<div className="space-y-6 mt-12 mx-auto md:w-1/2 w-full">
+									<span onClick={cancel} className="float-right m-5 cursor-pointer">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="input-icon"
+											viewBox="0 0 384 512">
+											<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+										</svg>
+									</span>
+									<div className="field">
+										<input
+											name="name"
+											required
+											placeholder="Enter name of Photo"
+											className="input-field"
+											type="text"
+											onChange={(e) => setName(e.target.value)}
+											value={name}
+										/>
+									</div>
+
+									<button
+										onClick={delGal}
+										className="button5 content2 mt-10 type1"></button>
+
+								</div>
+							)}
 						</div>
 					</div>
 
@@ -334,6 +549,7 @@ const Admin = () => {
 					<div>
 						<p className="text-3xl text-center">Notice</p>
 						<div className="flex justify-around flex-col md:flex-row space-y-6 items-center">
+							{/* Upload Notice */}
 							{!notice ? (
 								<button
 									onClick={() => setNotice(true)}
@@ -347,6 +563,17 @@ const Admin = () => {
 								</button>
 							) : (
 								<div className="space-y-6 mt-12 mx-auto md:w-1/2 w-full">
+									<span onClick={cancel} className="float-right m-5 cursor-pointer">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="input-icon"
+											viewBox="0 0 384 512">
+											<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+										</svg>
+									</span>
 									<div className="field">
 										<input
 											name="note"
@@ -361,27 +588,60 @@ const Admin = () => {
 
 									<button
 										onClick={notices}
-										className="button5 mt-10 type1"></button>
+										className="button5 mt-10 content1 type1"></button>
 
-									<ToastContainer />
+
 								</div>
 							)}
-							<button
-								onClick={() => setNotice(true)}
-								className="button4 mx-auto mt-10">
-								<span className="circle1"></span>
-								<span className="circle2"></span>
-								<span className="circle3"></span>
-								<span className="circle4"></span>
-								<span className="circle5"></span>
-								<span className="text">Delete Images</span>
-							</button>
+							{/* Delete Notice */}
+							{!delnotice ? (
+								<button
+									onClick={() => setDelNotice(true)}
+									className="button4 mx-auto mt-10">
+									<span className="circle1"></span>
+									<span className="circle2"></span>
+									<span className="circle3"></span>
+									<span className="circle4"></span>
+									<span className="circle5"></span>
+									<span className="text">Delete Notice</span>
+								</button>
+							) : (
+								<div className="space-y-6 mt-12 mx-auto md:w-1/2 w-full">
+									<span onClick={cancel} className="float-right m-5 cursor-pointer">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="input-icon"
+											viewBox="0 0 384 512">
+											<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+										</svg>
+									</span>
+									<div className="field">
+										<input
+											name="name"
+											required
+											placeholder="Enter name of Photo"
+											className="input-field"
+											type="text"
+											onChange={(e) => setName(e.target.value)}
+											value={name}
+										/>
+									</div>
+
+									<button
+										onClick={delGal}
+										className="button5 content2 mt-10 type1"></button>
+
+								</div>
+							)}
 						</div>
 					</div>
-				</section>
+				</section >
 
 				<ToastContainer />
-			</div>
+			</div >
 
 			<Footer />
 		</>

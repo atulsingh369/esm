@@ -23,7 +23,7 @@ const Footer = () => {
 
         <div className="flex text-md font-semibold items-center justify-between">
           <p>Made with ❤️</p>
-          <p>-By Atul Singh</p>
+          <p>By Atul Singh</p>
         </div>
       </footer>
     </>
