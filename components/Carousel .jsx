@@ -337,16 +337,6 @@ const Carousel = () => {
                     )}
                   </span>
                 </button>
-                <button
-                  onClick={() => setLogIn(false)}
-                  className="button4 w-full">
-                  <span className="circle1"></span>
-                  <span className="circle2"></span>
-                  <span className="circle3"></span>
-                  <span className="circle4"></span>
-                  <span className="circle5"></span>
-                  <span className="text">Log In Later</span>
-                </button>
               </div>
             </div>
           ) : (
