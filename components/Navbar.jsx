@@ -108,7 +108,7 @@ const Navbar = () => {
           </div>
 
           {/* Main Navbar */}
-          <div className="navbar-center hidden lg:flex font-semibold">
+          <div className="navbar-center ml-2 hidden lg:flex font-semibold">
             <ul className="menu menu-horizontal px-1 items-center font-semibold lg:gap-5">
               <li>
                 <Link
@@ -137,10 +137,18 @@ const Navbar = () => {
                   GALLERY
                 </Link>
               </li>
+
+              <li>
+                <Link
+                  href="/"
+                  className="hover:scale-105 transition-all ease-in-out duration-300 rounded-md font-semibold text-lg ">
+                  NOTICES
+                </Link>
+              </li>
             </ul>
           </div>
 
-          <div className="navbar-end mx-5 font-semibold">
+          <div className="navbar-end -ml-56 mr-16 font-semibold">
             {!user ? (
               <div className="flex">
                 <Link
@@ -190,6 +198,14 @@ const Navbar = () => {
                   <li className="mx-auto">
                     <span onClick={logOut}>Logout</span>
                   </li>
+                  <div className="mx-auto">
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="/EditDetails">
+                      <li>Edit Details</li>
+                    </Link>
+                  </div>
                 </ul>
               </div>
             )}
