@@ -108,7 +108,7 @@ const Navbar = () => {
           </div>
 
           {/* Main Navbar */}
-          <div className="navbar-center ml-2 hidden lg:flex font-semibold">
+          <div className="navbar-center md:ml-2 hidden lg:flex font-semibold">
             <ul className="menu menu-horizontal px-1 items-center font-semibold lg:gap-5">
               <li>
                 <Link
@@ -148,7 +148,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <div className="navbar-end -ml-56 mr-16 font-semibold">
+          <div className="navbar-end md:-ml-56 md:mr-16 font-semibold">
             {!user ? (
               <div className="flex">
                 <Link
