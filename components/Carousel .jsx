@@ -154,7 +154,7 @@ const Carousel = () => {
             ? "grid grid-cols-1 md:grid-cols-2 gap-3 "
             : "flex justify-center my-5 items-center"
         } p-3 transition-all ease-in-out duration-300 mt-10`}>
-        <div className="border-4 border-white border-dashed rounded-xl">
+        <div className="border-4 border-white border-dashed rounded-xl w-full">
           <div className="logo-parent-container">
             {data && (
               <div
