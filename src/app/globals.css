@@ -267,16 +267,16 @@
   box-shadow: 0.5px 0.5px 150px #252525;
 }
 
-.content1::after{
+.content1::after {
   content: "Thanks";
 }
-.content1::before{
+.content1::before {
   content: "Upload";
 }
-.content2::after{
+.content2::after {
   content: "Thanks";
 }
-.content2::before{
+.content2::before {
   content: "Delete";
 }
 
@@ -320,4 +320,25 @@
 
 .type1:hover::before {
   transform: translateY(-50px) scale(0) rotate(120deg);
+}
+
+.overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.65);
+
+  /* center overlay text */
+  display: flex;
+  color: #fff;
+  font-weight: 800;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.overlay_1 {
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  padding: 1rem;
+  overflow: hidden;
 }

@@ -197,7 +197,7 @@ const Navbar = () => {
                   tabIndex={0}
                   className="dropdown-content menu bg-white divide-y-2 divide-base-300 shadow rounded-box w-52">
                   {data && (
-                    <div className="mx-auto">
+                    <li className="mx-auto">
                       {data.role == "admin" && (
                         <Link
                           target="_blank"
@@ -209,12 +209,10 @@ const Navbar = () => {
                           <li>Admin Panel</li>
                         </Link>
                       )}
-                    </div>
+                    </li>
                   )}
+
                   <li className="mx-auto">
-                    <span onClick={logOut}>Logout</span>
-                  </li>
-                  <div className="mx-auto">
                     <Link
                       target="_blank"
                       rel="noopener noreferrer"
@@ -222,9 +220,13 @@ const Navbar = () => {
                         pathname: "/EditDetails",
                         query: { email: user.email },
                       }}>
-                      <li>Edit Details</li>
+                      <li>Profile</li>
                     </Link>
-                  </div>
+                  </li>
+
+                  <li className="mx-auto">
+                    <span onClick={logOut}>Logout</span>
+                  </li>
                 </ul>
               </div>
             )}
