@@ -41,7 +41,7 @@ const EditDetails = () => {
 			unsubscribe;
 			unsub;
 		};
-	}, [email]);
+	}, [email, userEmail]);
 
 
 	return (

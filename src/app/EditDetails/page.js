@@ -122,7 +122,7 @@ const EditDetails = () => {
 
 					</div>
 				) : (
-					<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>
+					<p className="text-center text-2xl my-48">😕 Please Login to Continue 😕</p>
 				)}
 
 			</div>
