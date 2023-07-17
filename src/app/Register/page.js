@@ -16,8 +16,11 @@ import Image from "next/image";
 
 const RegisterForm = () => {
 	const [loading, setLoading] = useState(false);
-	const [aadharPic, setAadharPic] = useState(
+	const [aadharPic1, setAadharPic1] = useState(
 		"https://ik.imagekit.io/xji6otwwkb/ESM/Adhaar-Card-Sample-Vector-File-sdfied.png?updatedAt=1688543664066"
+	);
+	const [aadharPic2, setAadharPic2] = useState(
+		"https://ik.imagekit.io/xji6otwwkb/ESM/aahar_back.png?updatedAt=1689572887801"
 	);
 	const [avatar, setAvatar] = useState(
 		"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697"
@@ -25,7 +28,8 @@ const RegisterForm = () => {
 
 	const [emails, setEmails] = useState("");
 	const [name, setName] = useState("");
-	const [image, setImage] = useState(null);
+	const [image1, setImage1] = useState(null);
+	const [image2, setImage2] = useState(null);
 	const [curUser, setCurUser] = useState({
 		email: "",
 		password: "",
@@ -45,6 +49,8 @@ const RegisterForm = () => {
 		serviceField: "",
 		address: "",
 		panNo: "",
+		fatherName: "",
+		DOB: "",
 	})
 
 	const [aadharNo, setAadharNo] = useState("");
@@ -80,9 +86,10 @@ const RegisterForm = () => {
 			await updateProfile(res, {
 				displayName: curUser.name,
 			});
+
 			await sendEmailVerification(res);
 			await setDoc(doc(db, "users", res.email), {
-				uid: res.uid,
+				RegNo: res.uid,
 				displayName: res.displayName,
 				email: res.email,
 			});
@@ -114,7 +121,7 @@ const RegisterForm = () => {
 	const add = async () => {
 		try {
 			setLoading(true)
-			if (!details.phn || !details.serviceNo || !details.serviceField || !details.address || !details.panNo) {
+			if (!details.phn || !details.DOB || !details.serviceNo || !details.serviceField || !details.address || !details.panNo || !details.fatherName) {
 				toast.error("Enter Details");
 				setDetails(initialValues);
 				setLoading(false);
@@ -122,6 +129,8 @@ const RegisterForm = () => {
 			}
 			else {
 				await updateDoc(doc(db, "users", emails), {
+					fatherName: details.fatherName,
+					DOB: details.DOB,
 					phoneNo: details.phn,
 					serviceNo: details.serviceNo,
 					serviceField: details.serviceField,
@@ -144,39 +153,45 @@ const RegisterForm = () => {
 	}
 
 	//Displaying Photo/Aadhar
-	const handleChange = async (e) => {
-		setImage(e.target.files[0]);
-		setAadharPic(URL.createObjectURL(e.target.files[0]));
+	const handleChange1 = async (e) => {
+		setImage1(e.target.files[0]);
+		setAadharPic1(URL.createObjectURL(e.target.files[0]));
 		setAvatar(URL.createObjectURL(e.target.files[0]));
+	};
+	const handleChange2 = async (e) => {
+		setImage2(e.target.files[0]);
+		setAadharPic2(URL.createObjectURL(e.target.files[0]));
 	};
 
 	//Uploading Aadhar
 	const aadhar = async () => {
 		try {
 			setLoading(true)
-			if (!image || !aadharNo) {
+			if (!image1 || !image2 || !aadharNo) {
 				toast.error("Enter Details");
 				setAadharNo("");
-				setAadharPic(
-					"https://ik.imagekit.io/xji6otwwkb/ESM/Adhaar-Card-Sample-Vector-File-sdfied.png?updatedAt=1688543664066")
+				setAadharPic1(
+					"https://ik.imagekit.io/xji6otwwkb/ESM/Adhaar-Card-Sample-Vector-File-sdfied.png?updatedAt=1688543664066");
+				setAadharPic2(
+					"https://ik.imagekit.io/xji6otwwkb/ESM/aahar_back.png?updatedAt=1689572887801");
 				setLoading(false);
 				return;
 			}
 			else {
-				const imageRef = ref(storage, `AadharCard/AadharNo_${name}_${aadharNo}`);
-				await uploadBytes(imageRef, image);
-				const url = await getDownloadURL(imageRef);
+				const imageRef1 = ref(storage, `AadharCard/${name}/AadharNo_${aadharNo}_front`);
+				await uploadBytes(imageRef1, image1);
+				const url1 = await getDownloadURL(imageRef1);
+
+				const imageRef2 = ref(storage, `AadharCard/${name}/AadharNo_${aadharNo}_back`);
+				await uploadBytes(imageRef2, image2);
+				const url2 = await getDownloadURL(imageRef2);
+
 				await updateDoc(doc(db, "users", emails), {
 					aadharNo: aadharNo,
-					aadharUrl: url,
+					aadharUrl1: url1,
+					aadharUrl2: url2,
 				});
-				setAadharNo("");
-				setAadharPic(
-					"https://ik.imagekit.io/xji6otwwkb/ESM/Adhaar-Card-Sample-Vector-File-sdfied.png?updatedAt=1688543664066")
-				setLoading(false);
-				setImage(null);
-				setAvatar(
-					"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697");
+
 				setTimeout(() => {
 					setPhotoDetail(true);
 				}, 1500);
@@ -184,18 +199,23 @@ const RegisterForm = () => {
 			}
 		} catch (error) {
 			toast.error(error.message);
-			setAadharNo("");
-			setAadharPic(
-				"https://ik.imagekit.io/xji6otwwkb/ESM/Adhaar-Card-Sample-Vector-File-sdfied.png?updatedAt=1688543664066")
-			setLoading(false);
-			setImage(null);
 		}
+		setAadharNo("");
+		setAadharPic1(
+			"https://ik.imagekit.io/xji6otwwkb/ESM/Adhaar-Card-Sample-Vector-File-sdfied.png?updatedAt=1688543664066");
+		setAadharPic2(
+			"https://ik.imagekit.io/xji6otwwkb/ESM/aahar_back.png?updatedAt=1689572887801");
+		setLoading(false);
+		setImage1(null);
+		setImage2(null);
+		setAvatar(
+			"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697");
 	}
 	//Uploading Photo
 	const photo = async () => {
 		try {
 			setLoading(true)
-			if (!image) {
+			if (!image1) {
 				toast.error("Enter Details");
 				setAvatar(
 					"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697");
@@ -204,7 +224,7 @@ const RegisterForm = () => {
 			}
 			else {
 				const imageRef = ref(storage, `Photo/${name}`);
-				await uploadBytes(imageRef, image);
+				await uploadBytes(imageRef, image1);
 				const url = await getDownloadURL(imageRef);
 				await updateDoc(doc(db, "users", emails), {
 					photoURL: url,
@@ -238,7 +258,8 @@ const RegisterForm = () => {
 									height="12"
 									fill="currentColor"
 									viewBox="0 0 448 512">
-									<path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" /></svg>
+									<path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+								</svg>
 								<input
 									required
 									autoComplete='off'
@@ -307,12 +328,12 @@ const RegisterForm = () => {
 								<span className="circle5"></span>
 								<span className="text">
 									{loading ? (
-										<section class="dots-container">
-											<div class="dot"></div>
-											<div class="dot"></div>
-											<div class="dot"></div>
-											<div class="dot"></div>
-											<div class="dot"></div>
+										<section className="dots-container">
+											<div className="dot"></div>
+											<div className="dot"></div>
+											<div className="dot"></div>
+											<div className="dot"></div>
+											<div className="dot"></div>
 										</section>
 									) : ("Sign Up")}
 								</span>
@@ -354,6 +375,55 @@ const RegisterForm = () => {
 												value={details.phn}
 											/>
 										</div>
+
+										<div className="field">                              {/*Father Name*/}
+											<svg
+												className="input-icon"
+												xmlns="http://www.w3.org/2000/svg"
+												width="12"
+												height="12"
+												fill="currentColor"
+												viewBox="0 0 448 512">
+												<path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+											</svg>
+
+											<input
+												name="fatherName"
+												required
+												placeholder="Father Name"
+												className="input-field"
+												type="text"
+												onChange={(e) => setDetails({
+													...details, fatherName: e.target.value
+												})}
+												value={details.fatherName}
+											/>
+										</div>
+
+										<div className="field">                              {/* DOB */}
+											<svg
+												className="input-icon"
+												xmlns="http://www.w3.org/2000/svg"
+												width="12"
+												height="12"
+												fill="currentColor"
+												viewBox="0 0 448 512">
+												<path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+											</svg>
+
+											<input
+												name="fatherName"
+												required
+												placeholder="Date of Birth"
+												className="input-field"
+												type="date"
+												onChange={(e) => setDetails({
+													...details, DOB: e.target.value
+												})}
+												value={details.DOB}
+											/>
+										</div>
+
 										<div className="field">                              {/*Service No*/}
 											<FaServicestack className="input-icon" />
 											<input
@@ -438,12 +508,12 @@ const RegisterForm = () => {
 											<span className="circle5"></span>
 											<span className="text">
 												{loading ? (
-													<section class="dots-container">
-														<div class="dot"></div>
-														<div class="dot"></div>
-														<div class="dot"></div>
-														<div class="dot"></div>
-														<div class="dot"></div>
+													<section className="dots-container">
+														<div className="dot"></div>
+														<div className="dot"></div>
+														<div className="dot"></div>
+														<div className="dot"></div>
+														<div className="dot"></div>
 													</section>
 												) : ("Save & Next")}
 											</span>
@@ -483,23 +553,41 @@ const RegisterForm = () => {
 														/>
 													</div>
 
-													<label htmlFor="aad" className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
-
-														<div className="shrink-0">
-															<img
-																className="h-48 w-fit object-contain"
-																src={aadharPic}
-																alt="Aadhar Pic"
+													<div className="flex justify-between space-x-5">
+														<label htmlFor="aadhar1" className="flex w-1/2 mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
+															<div className="shrink-0">
+																<img
+																	className="h-48 w-fit object-contain"
+																	src={aadharPic1}
+																	alt="Aadhar Pic"
+																/>
+															</div>
+															<input
+																onChange={handleChange1}
+																type="file"
+																id="aadhar1"
+																accept="image/jpeg,image/jpg,image/png"
+																className="mx-auto mt-8 text-sm text-white file:mr-4 file:py-2 file:px-4 file:bg-[#FF671F] file:rounded-full file:border-0 file:text-sm file:font-semibold hover:file:cursor-pointer"
 															/>
-														</div>
-														<input
-															onChange={handleChange}
-															type="file"
-															id="aad"
-															accept="image/jpeg,image/jpg,image/png"
-															className="mx-auto mt-8 text-sm text-white file:mr-4 file:py-2 file:px-4 file:bg-[#FF671F] file:rounded-full file:border-0 file:text-sm file:font-semibold hover:file:cursor-pointer"
-														/>
-													</label>
+														</label>
+
+														<label htmlFor="aadhar2" className="flex w-1/2 mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
+															<div className="shrink-0">
+																<img
+																	className="h-48 w-fit object-contain"
+																	src={aadharPic2}
+																	alt="Aadhar Pic"
+																/>
+															</div>
+															<input
+																onChange={handleChange2}
+																type="file"
+																id="aadhar2"
+																accept="image/jpeg,image/jpg,image/png"
+																className="mx-auto mt-8 text-sm text-white file:mr-4 file:py-2 file:px-4 file:bg-[#FF671F] file:rounded-full file:border-0 file:text-sm file:font-semibold hover:file:cursor-pointer"
+															/>
+														</label>
+													</div>
 													<button onClick={aadhar} className="button4 mt-10 w-full">
 														<span className="circle1"></span>
 														<span className="circle2"></span>
@@ -508,12 +596,12 @@ const RegisterForm = () => {
 														<span className="circle5"></span>
 														<span className="text">
 															{loading ? (
-																<section class="dots-container">
-																	<div class="dot"></div>
-																	<div class="dot"></div>
-																	<div class="dot"></div>
-																	<div class="dot"></div>
-																	<div class="dot"></div>
+																<section className="dots-container">
+																	<div className="dot"></div>
+																	<div className="dot"></div>
+																	<div className="dot"></div>
+																	<div className="dot"></div>
+																	<div className="dot"></div>
 																</section>
 															) : ("Save & Next")}
 														</span>
@@ -539,7 +627,7 @@ const RegisterForm = () => {
 																/>
 															</div>
 															<input
-																onChange={handleChange}
+																onChange={handleChange1}
 																type="file"
 																id="aad"
 																accept="image/jpeg,image/jpg,image/png"
@@ -547,6 +635,22 @@ const RegisterForm = () => {
 															/>
 														</label>
 														<button onClick={photo} className="button5 mt-10 type1">
+															<span className="circle1"></span>
+															<span className="circle2"></span>
+															<span className="circle3"></span>
+															<span className="circle4"></span>
+															<span className="circle5"></span>
+															<span className="text">
+																{loading ? (
+																	<section className="dots-container">
+																		<div className="dot"></div>
+																		<div className="dot"></div>
+																		<div className="dot"></div>
+																		<div className="dot"></div>
+																		<div className="dot"></div>
+																	</section>
+																) : ("Save")}
+															</span>
 														</button>
 													</div>
 													)
