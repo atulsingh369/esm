@@ -198,7 +198,7 @@ const Navbar = () => {
                   className="dropdown-content menu bg-white divide-y-2 divide-base-300 shadow rounded-box w-52">
                   {data && (
                     <div className="mx-auto">
-                      {data.role == "admin" && user && (
+                      {data.role == "admin" && (
                         <Link
                           target="_blank"
                           rel="noopener noreferrer"
@@ -206,14 +206,6 @@ const Navbar = () => {
                             pathname: "/Admin",
                             query: { email: user.email },
                           }}>
-                          <li>Admin Panel</li>
-                        </Link>
-                      )}
-                      {data.role == "admin" && (
-                        <Link
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href="/Admin">
                           <li>Admin Panel</li>
                         </Link>
                       )}
