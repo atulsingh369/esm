@@ -128,7 +128,7 @@ const Navbar = () => {
                       query: { email: user.email },
                     }}
                     className="hover:scale-105 transition-all ease-in-out duration-300 rounded-md font-semibold text-lg ">
-                    OUR MEMBERS
+                    MEMBERS
                   </Link>
                 ) : (
                   <Link
