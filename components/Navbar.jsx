@@ -202,7 +202,10 @@ const Navbar = () => {
                     <Link
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="/EditDetails">
+                      href={{
+                        pathname: "/EditDetails",
+                        query: { email: user.email },
+                      }}>
                       <li>Edit Details</li>
                     </Link>
                   </div>

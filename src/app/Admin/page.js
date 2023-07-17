@@ -40,7 +40,7 @@ const Admin = () => {
 	const [checked, setChecked] = useState(false) // Check whether checkbox is checked or not
 
 
-	
+
 	//Displaying Photo
 	const handleChange = async (e) => {
 		setImage(e.target.files[0]);
@@ -308,8 +308,8 @@ const Admin = () => {
 		setPhoto("https://ik.imagekit.io/xji6otwwkb/ESM/bg.jpg?updatedAt=1689049226559");
 	}
 
+	//Getting Admin Data
 	useEffect(() => {
-		//Getting Admin Data
 		const unsubscribe = onSnapshot(
 			query(collection(db, "users"), where("role", "==", "admin")),
 			(querySnapshot) => {
