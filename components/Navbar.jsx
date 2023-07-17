@@ -136,7 +136,7 @@ const Navbar = () => {
                     rel="noopener noreferrer"
                     href="/Members"
                     className="hover:scale-105 transition-all ease-in-out duration-300 rounded-md font-semibold text-lg ">
-                    GALLERY
+                    MEMBERS
                   </Link>
                 )}
               </li>
