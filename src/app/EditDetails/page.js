@@ -211,7 +211,7 @@ const EditDetails = () => {
 								<label htmlFor="avatar" className="overflow-hidden md:w-96 md:mb-0 mb-10 md:h-96 w-80 h-80">
 
 									<div className="shrink-0 relative overflow-hidden">
-										{avatar != null ?
+										{avatar !== null ?
 											<img
 												className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
 												src={avatar}
@@ -240,32 +240,63 @@ const EditDetails = () => {
 
 							<div className="flex flex-col md:mt-0 mt-4 md:flex-row justify-between md:items-center">
 								<div className="space-y-4">
-									<p className="text-xl md:text-2xl font-semibold">
+									<p disabled className="text-xl md:text-2xl cursor-not-allowed font-semibold">
 										Aadhar No : {data.aadharNo}
 									</p>
-									<p className="text-xl md:text-2xl font-semibold">
+									<p disabled className="text-xl md:text-2xl cursor-not-allowed font-semibold">
 										Pan No : {data.panNo}
 									</p>
 									<p disabled className="text-xl md:text-2xl cursor-not-allowed font-semibold">
 										Email : {data.email}
 									</p>
-									<p className="text-xl md:text-2xl font-semibold">
-										Mobile No : {data.phoneNo}
+									<p className="text-xl md:text-2xl flex items-center font-semibold">
+										<span className="mr-5">Mobile No : </span>
+										<div className="field">                              {/*Mobile No*/}
+											<input
+												required
+												autoComplete='off'
+												name="phoneNo"
+												placeholder={data.phoneNo}
+												className="input-field"
+												type="tel"
+												maxLength="10"
+											// value={curUser.name}
+											// onChange={(e) =>
+											// 	setCurUser({ ...curUser, name: e.target.value })
+											// }
+											/>
+										</div>
 									</p>
-									<p className="text-xl md:text-2xl font-semibold">
-										Address : {data.address}
+
+
+									<p className="text-xl md:text-2xl flex items-center font-semibold">
+										<span className="mr-5">Address : </span>
+										<div className="field">                              {/*Address*/}
+											<input
+												required
+												autoComplete='off'
+												name="serviceNo"
+												placeholder={data.address}
+												className="input-field"
+												type="text"
+											// value={curUser.name}
+											// onChange={(e) =>
+											// 	setCurUser({ ...curUser, name: e.target.value })
+											// }
+											/>
+										</div>
 									</p>
 								</div>
 
 								<div className="flex justify-between mt-10 items-center md:w-1/2 w-full">
-									<div className="w-36 md:w-56 h-36 md:h-56">
+									<div disabled className="w-36 cursor-not-allowed md:w-56 h-36 md:h-56">
 										<img
 											src={data.aadharUrl1}
 											className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
 											alt="AadharFront"
 										/>
 									</div>
-									<div className="w-36 md:w-56 h-36 md:h-56">
+									<div disabled className="w-36 cursor-not-allowed md:w-56 h-36 md:h-56">
 										<img
 											src={data.aadharUrl2}
 											className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"

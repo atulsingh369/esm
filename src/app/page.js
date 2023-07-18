@@ -18,6 +18,8 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
+import { useEffect, useState } from "react";
+import Loader from "../../components/Loader";
 
 const persistConfig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConfig, authReducer);
@@ -32,16 +34,43 @@ const store = configureStore({
 });
 
 export default function Home() {
+
+	const [loader, setLoader] = useState(true);
+
+	useEffect(() => {
+		const onPageLoad = () => {
+			setTimeout(() => {
+				setLoader(false);
+			}, 3000);
+		};
+
+		// Check if the page has already loaded
+		if (document.readyState === "complete") {
+			onPageLoad();
+		} else {
+			window.addEventListener("load", onPageLoad);
+			// Remove the event listener when component unmounts
+			return () => window.removeEventListener("load", onPageLoad);
+		}
+	}, []);
+
 	return (
 		<>
 			<Provider store={store}>
 				<PersistGate loading={null} persistor={persistStore(store)}>
-					<Navbar />
-					<Carousel />
-					<MovingLogo />
-					<Footer />
+					{!loader ? (
+						<div>
+							<Navbar />
+							<Carousel />
+							<MovingLogo />
+							<Footer />
+						</div>
+					) : (
+						<Loader />
+					)}
 				</PersistGate>
 			</Provider>
+
 		</>
 	);
 }
