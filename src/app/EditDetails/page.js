@@ -17,6 +17,25 @@ const EditDetails = () => {
 	const email = searchParams.get('email'); // Store user logined email
 
 	const [avatar, setAvatar] = useState(null); // Store photo upload
+	const [aadharPic1, setAadharPic1] = useState(null);
+	const [aadharPic2, setAadharPic2] = useState(null);
+	const [image, setImage] = useState(null);
+	const [image1, setImage1] = useState(null);
+	const [image2, setImage2] = useState(null);
+
+	//Displaying Photo/Aadhar
+	const handleChange = async (e) => {
+		setImage(e.target.files[0]);
+		setAvatar(URL.createObjectURL(e.target.files[0]));
+	};
+	const handleChange1 = async (e) => {
+		setImage1(e.target.files[0]);
+		setAadharPic1(URL.createObjectURL(e.target.files[0]));
+	};
+	const handleChange2 = async (e) => {
+		setImage2(e.target.files[0]);
+		setAadharPic2(URL.createObjectURL(e.target.files[0]));
+	};
 
 	//Getting User Details
 	useEffect(() => {
@@ -33,6 +52,11 @@ const EditDetails = () => {
 			unsubscribe;
 		};
 	}, [email]);
+
+
+	const save = async () => {
+		
+	}
 
 	return (
 		<>
@@ -234,7 +258,7 @@ const EditDetails = () => {
 										}
 									</div>
 									<input
-										// onChange={handleChange1}
+										onChange={handleChange}
 										type="file"
 										id="avatar"
 										accept="image/jpeg,image/jpg,image/png"
@@ -292,6 +316,25 @@ const EditDetails = () => {
 										</div>
 									</p>
 
+									<p className="text-xl md:text-2xl flex items-center font-semibold">
+										<span className="mr-5">Secondary Mobile No : </span>
+										<div className="field">                              {/* Secondary Mobile No*/}
+											<input
+												required
+												autoComplete='off'
+												name="secPhoneNo"
+												placeholder={data.secPhoneNo}
+												className="input-field"
+												type="tel"
+												maxLength="10"
+											// value={curUser.name}
+											// onChange={(e) =>
+											// 	setCurUser({ ...curUser, name: e.target.value })
+											// }
+											/>
+										</div>
+									</p>
+
 
 									<p className="text-xl md:text-2xl flex items-center font-semibold">
 										<span className="mr-5">Temporary Address : </span>
@@ -332,25 +375,76 @@ const EditDetails = () => {
 
 								</div>
 
+
+
+
 								<div className="flex justify-between mt-10 items-center md:w-1/2 w-full">
-									<div disabled className="w-36 cursor-not-allowed md:w-56 h-36 md:h-56">
-										<img
-											src={data.aadharUrl1}
-											className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
-											alt="AadharFront"
+
+									<label htmlFor="aasdhar1" className="overflow-hidden w-36 md:w-56 h-36 md:h-56">
+
+										<div className="shrink-0 relative overflow-hidden">
+											{aadharPic1 !== null ?
+												<img
+													className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
+													src={aadharPic1}
+													alt="AadharFront"
+												/> :
+												<div>
+													<img
+														src={data.aadharUrl1}
+														className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
+														alt="AadharFront"
+													/>
+													<div className="overlay overlay_2">
+														<h3>Upload</h3>
+													</div>
+												</div>
+											}
+										</div>
+										<input
+											onChange={handleChange1}
+											type="file"
+											id="aasdhar1"
+											accept="image/jpeg,image/jpg,image/png"
+											className="mx-auto hidden mt-8 text-sm text-white file:mr-4 file:py-2 file:px-4 file:bg-[#FF671F] file:rounded-full file:border-0 file:text-sm file:font-semibold hover:file:cursor-pointer"
 										/>
-									</div>
-									<div disabled className="w-36 cursor-not-allowed md:w-56 h-36 md:h-56">
-										<img
-											src={data.aadharUrl2}
-											className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
-											alt="AadharBack"
+									</label>
+
+									<label htmlFor="aadhar2" className="overflow-hidden w-36 md:w-56 h-36 md:h-56">
+
+										<div className="shrink-0 relative overflow-hidden">
+											{aadharPic2 !== null ?
+												<img
+													className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
+													src={aadharPic2}
+													alt="AadharBack"
+												/> :
+												<div>
+													<img
+														src={data.aadharUrl2}
+														className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
+														alt="AadharBack"
+													/>
+													<div className="overlay overlay_2">
+														<h3>Upload</h3>
+													</div>
+												</div>
+											}
+										</div>
+										<input
+											onChange={handleChange2}
+											type="file"
+											id="aadhar2"
+											accept="image/jpeg,image/jpg,image/png"
+											className="mx-auto hidden mt-8 text-sm text-white file:mr-4 file:py-2 file:px-4 file:bg-[#FF671F] file:rounded-full file:border-0 file:text-sm file:font-semibold hover:file:cursor-pointer"
 										/>
-									</div>
+									</label>
+
+
 								</div>
 							</div>
 
-							{/* Edit Details Button */}
+							{/* Save Button */}
 							<div className="flex justify-center items-center md:mt-10">
 								<button className="button4 mt-10 w-full">
 									<span className="circle1"></span>
