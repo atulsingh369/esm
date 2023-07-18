@@ -246,15 +246,33 @@ const EditDetails = () => {
 
 							<div className="flex flex-col md:mt-0 mt-4 md:flex-row justify-between md:items-center">
 								<div className="space-y-4">
+
 									<p disabled className="text-xl md:text-2xl cursor-not-allowed font-semibold">
 										Aadhar No : {data.aadharNo}
 									</p>
-									<p disabled className="text-xl md:text-2xl cursor-not-allowed font-semibold">
-										Pan No : {data.panNo}
+
+									<p className="text-xl md:text-2xl flex items-center font-semibold">
+										<span className="mr-5">Pan No : </span>
+										<div className="field">                              {/*Pan No*/}
+											<input
+												required
+												autoComplete='off'
+												name="panNO"
+												placeholder={data.panNo}
+												className="input-field"
+												type="text"
+											// value={curUser.name}
+											// onChange={(e) =>
+											// 	setCurUser({ ...curUser, name: e.target.value })
+											// }
+											/>
+										</div>
 									</p>
+
 									<p disabled className="text-xl md:text-2xl cursor-not-allowed font-semibold">
 										Email : {data.email}
 									</p>
+
 									<p className="text-xl md:text-2xl flex items-center font-semibold">
 										<span className="mr-5">Mobile No : </span>
 										<div className="field">                              {/*Mobile No*/}
@@ -266,6 +284,25 @@ const EditDetails = () => {
 												className="input-field"
 												type="tel"
 												maxLength="10"
+											// value={curUser.name}
+											// onChange={(e) =>
+											// 	setCurUser({ ...curUser, name: e.target.value })
+											// }
+											/>
+										</div>
+									</p>
+
+
+									<p className="text-xl md:text-2xl flex items-center font-semibold">
+										<span className="mr-5">Temporary Address : </span>
+										<div className="field">                              {/* Temp Address*/}
+											<input
+												required
+												autoComplete='off'
+												name="tempAdd"
+												placeholder={data.tempAdd}
+												className="input-field"
+												type="text"
 											// value={curUser.name}
 											// onChange={(e) =>
 											// 	setCurUser({ ...curUser, name: e.target.value })
@@ -292,6 +329,7 @@ const EditDetails = () => {
 											/>
 										</div>
 									</p>
+
 								</div>
 
 								<div className="flex justify-between mt-10 items-center md:w-1/2 w-full">
