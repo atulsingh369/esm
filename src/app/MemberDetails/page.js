@@ -51,7 +51,7 @@ const EditDetails = () => {
 
 			<div className="md:px-56 px-5">
 				<h1 id="heading1">
-					Profile
+					Member
 				</h1>
 
 				{data ? (
@@ -96,12 +96,17 @@ const EditDetails = () => {
 
 						<div className="flex flex-col md:mt-0 mt-4 md:flex-row justify-between md:items-center">
 							<div className="space-y-4">
-								<p className="text-xl md:text-2xl font-semibold">
-									Aadhar No : {data.aadharNo}
-								</p>
-								<p className="text-xl md:text-2xl font-semibold">
-									Pan No : {data.panNo}
-								</p>
+								{user && user.role == "admin" &&
+									<div className="flex flex-col justify-center md:mb-0 mb-10">
+										<p className="text-xl md:text-2xl font-semibold">
+											Aadhar No : {data.aadharNo}
+										</p>
+										<p className="text-xl md:text-2xl font-semibold">
+											Pan No : {data.panNo}
+										</p>
+									</div>
+								}
+
 								<p className="text-xl md:text-2xl font-semibold">
 									Email : {data.email}
 								</p>
@@ -113,22 +118,25 @@ const EditDetails = () => {
 								</p>
 							</div>
 
-							<div className="flex justify-between mt-10 items-center md:w-1/2 w-full">
-								<div className="w-36 md:w-56 h-36 md:h-56">
-									<img
-										src={data.aadharUrl1}
-										className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
-										alt="AadharFront"
-									/>
+							{user && user.role == "admin" &&
+								<div className="flex justify-between mt-10 items-center md:w-1/2 w-full">
+									<div className="w-36 md:w-56 h-36 md:h-56">
+										<img
+											src={data.aadharUrl1}
+											className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
+											alt="AadharFront"
+										/>
+									</div>
+									<div className="w-36 md:w-56 h-36 md:h-56">
+										<img
+											src={data.aadharUrl2}
+											className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
+											alt="AadharBack"
+										/>
+									</div>
 								</div>
-								<div className="w-36 md:w-56 h-36 md:h-56">
-									<img
-										src={data.aadharUrl2}
-										className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box"
-										alt="AadharBack"
-									/>
-								</div>
-							</div>
+							}
+
 						</div>
 
 						{user && user.role == "admin" &&

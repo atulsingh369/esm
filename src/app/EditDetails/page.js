@@ -81,13 +81,19 @@ const EditDetails = () => {
 										Aadhar No : {data.aadharNo}
 									</p>
 									<p className="text-xl md:text-2xl font-semibold">
-										Pan No : {data.panNo}
+										Pan No : {data.panNo ? data.panNo : "N/A"}
 									</p>
 									<p className="text-xl md:text-2xl font-semibold">
 										Email : {data.email}
 									</p>
 									<p className="text-xl md:text-2xl font-semibold">
 										Mobile No : {data.phoneNo}
+									</p>
+									<p className="text-xl md:text-2xl font-semibold">
+										Secondary Mobile No : {data.secPhoneNo ? data.secPhoneNo : "N/A"}
+									</p>
+									<p className="text-xl md:text-2xl font-semibold">
+										Temporary	Address : {data.tempAdd ? data.tempAdd : "N/A"}
 									</p>
 									<p className="text-xl md:text-2xl font-semibold">
 										Address : {data.address}

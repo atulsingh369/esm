@@ -74,10 +74,8 @@ const Members = () => {
 											alt="Profile Pic"
 										/>
 										<p className="text-center">{item.displayName}</p>
-										<p className="text-center">{item.serviceNo}</p>
 										<p className="text-center">{item.serviceField}</p>
 										<p className="text-center">{item.phoneNo}</p>
-										<p className="text-center">{item.email}</p>
 									</div>
 								</Link>
 							))}

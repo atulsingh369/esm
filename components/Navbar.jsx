@@ -71,16 +71,30 @@ const Navbar = () => {
                 tabIndex={0}
                 className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white rounded-box w-52">
                 <li>
-                  <Link href="/">ABOUT US</Link>
+                  <li>
+                    <Link href="/">ABOUT US</Link>
+                  </li>
                 </li>
 
                 <li>
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="/Members">
-                    OUR MEMBERS
-                  </Link>
+                  {user ? (
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={{
+                        pathname: "/Members",
+                        query: { email: user.email },
+                      }}>
+                      MEMBERS
+                    </Link>
+                  ) : (
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="/Members">
+                      MEMBERS
+                    </Link>
+                  )}
                 </li>
 
                 <li>
