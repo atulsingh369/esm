@@ -13,9 +13,6 @@ import Image from "next/image";
 const Navbar = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState(null);
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") ? localStorage.getItem("theme") : "forest"
-  );
 
   const user = useSelector((state) => state.user);
 
@@ -106,13 +103,13 @@ const Navbar = () => {
               </ul>
             </div>
             <Link href="/">
-              <div className="flex ml-2 md:ml-0 justify-start items-center">
+              <div className="flex ml-2 lg:ml-0 justify-start items-center">
                 <img
                   src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
                   alt="logo"
-                  className="h-20 mx-0 md:mx-2 md:h-32"
+                  className="h-20 mx-0 lg:mx-2 lg:h-32"
                 />
-                <p className="text-lg hidden md:block md:text-2xl text-[#FF671F] font-semibold">
+                <p className="text-lg hidden lg:block lg:text-2xl text-[#FF671F] font-semibold">
                   भूतपूर्व सैनिक जन कल्याण समिति उ.प्र.
                 </p>
               </div>
@@ -120,7 +117,7 @@ const Navbar = () => {
           </div>
 
           {/* Main Navbar */}
-          <div className="navbar-center md:ml-2 hidden lg:flex font-semibold">
+          <div className="navbar-center lg:ml-2 hidden lg:flex font-semibold">
             <ul className="menu menu-horizontal px-1 items-center font-semibold lg:gap-5">
               <li>
                 <Link
@@ -173,7 +170,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <div className="navbar-end md:-ml-56 md:mr-16 font-semibold">
+          <div className="navbar-end lg:-ml-56 lg:mr-16 font-semibold">
             {!user ? (
               <div className="flex">
                 <Link
@@ -246,7 +243,7 @@ const Navbar = () => {
           <ToastContainer />
         </div>
 
-        <p className="text-xl text-center md:hidden block md:text-2xl text-[#FF671F] font-semibold">
+        <p className="text-xl text-center lg:hidden block lg:text-2xl text-[#FF671F] font-semibold">
           भूतपूर्व सैनिक जन कल्याण समिति उ.प्र.
         </p>
       </div>

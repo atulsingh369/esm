@@ -288,7 +288,7 @@ const RegisterForm = () => {
 				<>
 					{emailPass ? (
 						<div className="flex flex-col justify-center items-center h-screen">
-							<div className="w-screen md:w-1/2">
+							<div className="w-screen lg:w-1/2">
 								<div className='form space-y-4 rounded-md'>
 									<p id="heading">Sign Up</p>
 									<div className="field">                              {/*Name*/}
@@ -410,7 +410,7 @@ const RegisterForm = () => {
 							<div>
 								{!aadharDetail ? (
 									<div className="flex flex-col justify-center items-center h-screen">
-										<div className="w-screen md:w-1/2">
+										<div className="w-screen lg:w-1/2">
 											<div className='form space-y-4 rounded-md'>
 												<p id="heading">Fill Up Your Details</p>
 
@@ -629,7 +629,7 @@ const RegisterForm = () => {
 										<div>
 											{!photoDetail ? (
 												<div className="flex flex-col justify-center items-center h-screen">
-													<div className="w-screen md:w-1/2">
+													<div className="w-screen lg:w-1/2">
 														<div className="form">
 															<p id="heading">Upload Your Aadhar Card</p>
 															<div className="field">
@@ -715,7 +715,7 @@ const RegisterForm = () => {
 											)
 												: (
 													<div className="flex flex-col justify-center items-center h-screen">
-														<div className="w-screen md:w-1/2">
+														<div className="w-screen lg:w-1/2">
 															{!home ? (<div className="form">
 																<p id="heading">Upload Your Photo</p>
 

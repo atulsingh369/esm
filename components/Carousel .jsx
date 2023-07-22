@@ -121,7 +121,7 @@ const Carousel = () => {
       <div
         className={`${
           !user
-            ? "grid grid-cols-1 md:grid-cols-2 gap-3 "
+            ? "grid grid-cols-1 lg:grid-cols-2 gap-3 "
             : "flex justify-center my-5 items-center"
         } p-3 transition-all ease-in-out duration-300 mt-10`}>
         <div className="border-4 border-white border-dashed rounded-xl w-full">
@@ -144,7 +144,7 @@ const Carousel = () => {
         </div>
 
         {!user && (
-          <div className="w-full hidden border-4 border-[white] border-dashed rounded-lg md:flex flex-col gap-2 justify-center items-center p-5">
+          <div className="w-full hidden border-4 border-[white] border-dashed rounded-lg lg:flex flex-col gap-2 justify-center items-center p-5">
             <div className="form w-full space-y-5 rounded-md h-96">
               <p id="heading">SIGN IN</p>
               <div className="field">
@@ -223,7 +223,7 @@ const Carousel = () => {
                 <span className="circle5"></span>
                 <span className="text">
                   {loading ? (
-                    <div class="spinner">
+                    <div className="spinner">
                       <div></div>
                       <div></div>
                       <div></div>
@@ -244,7 +244,7 @@ const Carousel = () => {
       </div>
 
       {!user && (
-        <div className="md:hidden my-5">
+        <div className="lg:hidden my-5">
           {logIn ? (
             <div className="w-full border-4 border-[white] border-dashed rounded-lg flex flex-col gap-2 justify-center items-center p-5">
               <span

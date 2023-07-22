@@ -361,24 +361,24 @@ const Admin = () => {
 
 							{/* Admin Info */}
 							{adminData ? (
-								<div className="flex flex-col-reverse md:flex-row justify-center items-center">
+								<div className="flex flex-col-reverse lg:flex-row justify-center items-center">
 									<div className="flex hover:scale-105 transition-all ease-in-out duration-300 flex-col space-y-4 justify-center items-center">
-										<p className="text-xl md:text-2xl font-semibold">
+										<p className="text-xl lg:text-2xl font-semibold">
 											Mr. {adminData.displayName}
 										</p>
-										<p className="text-xl md:text-2xl font-semibold">
+										<p className="text-xl lg:text-2xl font-semibold">
 											{adminData.serviceField}
 										</p>
-										<p className="text-xl md:text-2xl font-semibold">
+										<p className="text-xl lg:text-2xl font-semibold">
 											{adminData.phoneNo}
 										</p>
-										<p className="text-xl md:text-2xl font-semibold">{adminData.email}</p>
+										<p className="text-xl lg:text-2xl font-semibold">{adminData.email}</p>
 									</div>
 
-									<div className="md:w-96 md:h-96 w-48 h-48 m-5 mx-12">
+									<div className="lg:w-96 lg:h-96 w-48 h-48 m-5 mx-12">
 										<img
 											src={adminData.photoURL}
-											className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box md:rounded-full"
+											className="max-h-full hover:scale-105 transition-all ease-in-out duration-300 min-w-full rounded-box lg:rounded-full"
 											alt="Profile"
 										/>
 									</div>
@@ -393,7 +393,7 @@ const Admin = () => {
 								{/* Gallery */}
 								<div>
 									<p className="text-3xl text-center">Gallery</p>
-									<div className="flex justify-around flex-col md:flex-row space-y-6 items-center">
+									<div className="flex justify-around flex-col lg:flex-row space-y-6 items-center">
 										{/* Upload Gallery Images */}
 										{!gallery ? (
 											<button
@@ -410,7 +410,7 @@ const Admin = () => {
 												<span className="text">Upload Images</span>
 											</button>
 										) : (
-											<div className="space-y-6 mx-auto mt-10 w-full md:w-1/2">
+											<div className="space-y-6 mx-auto mt-10 w-full lg:w-1/2">
 												<span onClick={cancel} className="float-right m-5 cursor-pointer">
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
@@ -471,7 +471,7 @@ const Admin = () => {
 												<span className="text">Delete Images</span>
 											</button>
 										) : (
-											<div className="space-y-6 mt-12 mx-auto md:w-1/2 w-full">
+											<div className="space-y-6 mt-12 mx-auto lg:w-1/2 w-full">
 												<span onClick={cancel} className="float-right m-5 cursor-pointer">
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
@@ -536,7 +536,7 @@ const Admin = () => {
 								{/* Carousel */}
 								<div>
 									<p className="text-3xl text-center">Carousel</p>
-									<div className="flex justify-around flex-col md:flex-row space-y-6 items-center">
+									<div className="flex justify-around flex-col lg:flex-row space-y-6 items-center">
 										{/* Upload Carousel Images */}
 										{!carousel ? (
 											<button
@@ -553,7 +553,7 @@ const Admin = () => {
 												<span className="text">Upload Images</span>
 											</button>
 										) : (
-											<div className="space-y-6 mx-auto w-full md:w-1/2">
+											<div className="space-y-6 mx-auto w-full lg:w-1/2">
 												<span onClick={cancel} className="float-right m-5 cursor-pointer">
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
@@ -604,7 +604,7 @@ const Admin = () => {
 												<span className="text">Delete Images</span>
 											</button>
 										) : (
-											<div className="space-y-6 mt-12 mx-auto md:w-1/2 w-full">
+											<div className="space-y-6 mt-12 mx-auto lg:w-1/2 w-full">
 												<span onClick={cancel} className="float-right m-5 cursor-pointer">
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
@@ -669,7 +669,7 @@ const Admin = () => {
 								{/* Notice */}
 								<div>
 									<p className="text-3xl text-center">Notice</p>
-									<div className="flex justify-around flex-col md:flex-row space-y-6 items-center">
+									<div className="flex justify-around flex-col lg:flex-row space-y-6 items-center">
 										{/* Upload Notice */}
 										{!notice ? (
 											<button
@@ -683,7 +683,7 @@ const Admin = () => {
 												<span className="text">Upload Notice</span>
 											</button>
 										) : (
-											<div className="space-y-6 mt-12 mx-auto md:w-1/2 w-full">
+											<div className="space-y-6 mt-12 mx-auto lg:w-1/2 w-full">
 												<span onClick={cancel} className="float-right m-5 cursor-pointer">
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
@@ -727,7 +727,7 @@ const Admin = () => {
 												<span className="text">Delete Notice</span>
 											</button>
 										) : (
-											<div className="space-y-6 mt-12 mx-auto md:w-1/2 w-full">
+											<div className="space-y-6 mt-12 mx-auto lg:w-1/2 w-full">
 												<span onClick={cancel} className="float-right m-5 cursor-pointer">
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
