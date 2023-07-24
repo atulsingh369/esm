@@ -87,8 +87,6 @@ const EditDetails = () => {
 				var pic2 = await getDownloadURL(imageRef2);
 			}
 
-			console.log("Entered");
-
 			await updateDoc(doc(db, "users", email), {
 				DOB: details.DOB ? details.DOB : data.DOB,
 				phoneNo: details.phoneNo ? details.phoneNo : data.phoneNo,
@@ -102,8 +100,6 @@ const EditDetails = () => {
 				aadharUrl2: pic2 ? pic2 : data.aadharUrl2,
 				photoURL: pic ? pic : data.photoURL,
 			});
-
-			console.log("done");
 
 			toast.success("Edited Succesfully");
 		} catch (error) {
