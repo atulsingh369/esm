@@ -113,6 +113,16 @@ const EditDetails = () => {
 								<p className="text-xl lg:text-2xl font-semibold">
 									Mobile No : {data.phoneNo}
 								</p>
+								{data.secPhoneNo &&
+									<p className="text-xl lg:text-2xl font-semibold">
+										Secondary Mobile No : {data.secPhoneNo}
+									</p>
+								}
+								{data.tempAdd &&
+									<p className="text-xl lg:text-2xl font-semibold">
+										Temporary Address : {data.tempAdd}
+									</p>
+								}
 								<p className="text-xl lg:text-2xl font-semibold">
 									Address : {data.address}
 								</p>
