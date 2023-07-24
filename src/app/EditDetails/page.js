@@ -87,19 +87,23 @@ const EditDetails = () => {
 				var pic2 = await getDownloadURL(imageRef2);
 			}
 
+			console.log("Entered");
+
 			await updateDoc(doc(db, "users", email), {
 				DOB: details.DOB ? details.DOB : data.DOB,
 				phoneNo: details.phoneNo ? details.phoneNo : data.phoneNo,
-				secPhoneNo: details.secPhoneNo ? details.secPhoneNo : data.secPhoneNo,
+				secPhoneNo: details.secPhoneNo ? details.secPhoneNo : data.secPhoneNo ? data.secPhoneNo : "",
 				serviceNo: details.serviceNo ? details.serviceNo : data.serviceNo,
 				serviceField: details.serviceField ? details.serviceField : data.serviceField,
 				address: details.address ? details.address : data.address,
-				tempAdd: details.tempAdd ? details.tempAdd : data.tempAdd,
-				panNo: details.panNo ? details.panNo : data.panNo,
+				tempAdd: details.tempAdd ? details.tempAdd : data.tempAdd ? data.tempAdd : "",
+				panNo: details.panNo ? details.panNo : data.panNo ? data.panNo : "",
 				aadharUrl1: pic1 ? pic1 : data.aadharUrl1,
 				aadharUrl2: pic2 ? pic2 : data.aadharUrl2,
 				photoURL: pic ? pic : data.photoURL,
 			});
+
+			console.log("done");
 
 			toast.success("Edited Succesfully");
 		} catch (error) {
