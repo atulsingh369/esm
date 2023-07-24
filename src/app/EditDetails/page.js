@@ -35,9 +35,6 @@ const EditDetails = () => {
 		tempAdd: "",
 		panNo: "",
 		DOB: "",
-		photoURL: "",
-		aadharUrl1: "",
-		aadharUrl2: "",
 	})
 
 
@@ -74,27 +71,20 @@ const EditDetails = () => {
 	const save = async () => {
 		setLoading(true);
 		try {
-
 			if (image) {
-				const imageRef = ref(storage, `Photo/${data.displayName}`);
-				await deleteObject(imageRef)
+				const imageRef = ref(storage, `Photo/${data.displayName}_${data.aadharNo}`);
 				await uploadBytes(imageRef, image);
-				const pic = await getDownloadURL(imageRef);
-				setDetails({ ...details, photoURL: pic })
+				var pic = await getDownloadURL(imageRef);
 			}
 			if (image1) {
-				const imageRef1 = ref(storage, `AadharCard/${data.displayName}/AadharNo_${data.aadharNo}_front`);
-				await deleteObject(imageRef1)
-				await uploadBytes(imageRef1, image);
-				const pic1 = await getDownloadURL(imageRef1);
-				setDetails({ ...details, aadharUrl1: pic1 })
+				const imageRef1 = ref(storage, `AadharCard/${data.displayName}_${data.aadharNo}/AadharNo_${data.aadharNo}_front`);
+				await uploadBytes(imageRef1, image1);
+				var pic1 = await getDownloadURL(imageRef1);
 			}
 			if (image2) {
-				const imageRef2 = ref(storage, `AadharCard/${data.displayName}/AadharNo_${data.aadharNo}_back`);
-				await deleteObject(imageRef2)
-				await uploadBytes(imageRef2, image);
-				const pic2 = await getDownloadURL(imageRef2);
-				setDetails({ ...details, aadharUrl2: pic2 })
+				const imageRef2 = ref(storage, `AadharCard/${data.displayName}_${data.aadharNo}/AadharNo_${data.aadharNo}_back`);
+				await uploadBytes(imageRef2, image2);
+				var pic2 = await getDownloadURL(imageRef2);
 			}
 
 			await updateDoc(doc(db, "users", email), {
@@ -106,25 +96,25 @@ const EditDetails = () => {
 				address: details.address ? details.address : data.address,
 				tempAdd: details.tempAdd ? details.tempAdd : data.tempAdd,
 				panNo: details.panNo ? details.panNo : data.panNo,
-				aadharUrl1: details.aadharUrl1 ? details.aadharUrl1 : data.aadharUrl1,
-				aadharUrl2: details.aadharUrl2 ? details.aadharUrl2 : data.aadharUrl2,
-				photoURL: details.photoURL ? details.photoURL : data.photoURL,
+				aadharUrl1: pic1 ? pic1 : data.aadharUrl1,
+				aadharUrl2: pic2 ? pic2 : data.aadharUrl2,
+				photoURL: pic ? pic : data.photoURL,
 			});
 
 			toast.success("Edited Succesfully");
-			setEditDetails(false);
-
 		} catch (error) {
 			toast.error(error);
-			setEditDetails(false);
 		}
 		setLoading(false);
+		setEditDetails(false);
+		setImage1(null);
+		setImage2(null);
+		setImage(null);
 	}
 
 
 	return (
 		<>
-
 			<FuncNavbar />
 
 			<div className="lg:px-56 px-5">
@@ -141,7 +131,7 @@ const EditDetails = () => {
 										Name : Mr. {data.displayName}
 									</p>
 									<p className="text-xl lg:text-2xl font-semibold">
-										Father Name : Mr. {data.fatherName}
+										Father Name : Shri {data.fatherName}
 									</p>
 									<p className="text-xl lg:text-2xl font-semibold">
 										D.O.B. : {data.DOB}
@@ -232,7 +222,7 @@ const EditDetails = () => {
 
 
 									<div disabled className="text-xl lg:text-2xl cursor-not-allowed font-semibold">
-										Father Name : Mr. {data.fatherName}
+										Father Name : Shri {data.fatherName}
 									</div>
 
 
@@ -444,7 +434,7 @@ const EditDetails = () => {
 
 								<div className="flex justify-between mt-10 items-center lg:w-1/2 w-full">
 
-									<label htmlFor="aasdhar1" className="overflow-hidden w-36 lg:w-56 h-36 lg:h-56">
+									<label htmlFor="aadhar1" className="overflow-hidden w-36 lg:w-56 h-36 lg:h-56">
 
 										<div className="shrink-0 relative overflow-hidden">
 											{aadharPic1 !== null ?
@@ -468,7 +458,7 @@ const EditDetails = () => {
 										<input
 											onChange={handleChange1}
 											type="file"
-											id="aasdhar1"
+											id="aadhar1"
 											accept="image/jpeg,image/jpg,image/png"
 											className="mx-auto hidden mt-8 text-sm text-white file:mr-4 file:py-2 file:px-4 file:bg-[#FF671F] file:rounded-full file:border-0 file:text-sm file:font-semibold hover:file:cursor-pointer"
 										/>
@@ -508,9 +498,12 @@ const EditDetails = () => {
 								</div>
 							</div>
 
+
 							{/* Save Button */}
 							<div className="flex justify-center items-center lg:mt-10">
-								<button onClick={save} className="button4 mt-10 w-full">
+								<button
+									onClick={save}
+									className="button4">
 									<span className="circle1"></span>
 									<span className="circle2"></span>
 									<span className="circle3"></span>

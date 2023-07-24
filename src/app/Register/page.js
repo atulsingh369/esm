@@ -130,7 +130,7 @@ const RegisterForm = () => {
 	const add = async () => {
 		try {
 			setLoading(true)
-			if (!details.phn || !details.tempAdd || !details.secPhn || !details.DOB || !details.serviceNo || !details.serviceField || !details.address || !details.panNo || !details.fatherName) {
+			if (!details.phn || !details.DOB || !details.serviceNo || !details.serviceField || !details.address || !details.fatherName) {
 				toast.error("Enter Details");
 				setDetails(initialValues);
 				setLoading(false);
@@ -178,7 +178,7 @@ const RegisterForm = () => {
 	const aadhar = async () => {
 		try {
 			setLoading(true)
-			if (!image1 || !image2 || !aadharNo) {
+			if (!aadharNo) {
 				toast.error("Enter Details");
 				setAadharNo("");
 				setAadharPic1(
@@ -189,13 +189,22 @@ const RegisterForm = () => {
 				return;
 			}
 			else {
-				const imageRef1 = ref(storage, `AadharCard/${name}/AadharNo_${aadharNo}_front`);
-				await uploadBytes(imageRef1, image1);
-				const url1 = await getDownloadURL(imageRef1);
+				if (image1) {
+					const imageRef1 = ref(storage, `AadharCard/${name}_${aadharNo}/AadharNo_${aadharNo}_front`);
+					await uploadBytes(imageRef1, image1);
+					var url1 = await getDownloadURL(imageRef1);
+				}
+				else
+					var url1 = aadharPic1;
 
-				const imageRef2 = ref(storage, `AadharCard/${name}/AadharNo_${aadharNo}_back`);
-				await uploadBytes(imageRef2, image2);
-				const url2 = await getDownloadURL(imageRef2);
+				if (image2) {
+					const imageRef2 = ref(storage, `AadharCard/${name}_${aadharNo}/AadharNo_${aadharNo}_back`);
+					await uploadBytes(imageRef2, image2);
+					var url2 = await getDownloadURL(imageRef2);
+				}
+				else
+					var url2 = aadharPic2;
+
 
 				await updateDoc(doc(db, "users", emails), {
 					aadharNo: aadharNo,
@@ -226,26 +235,23 @@ const RegisterForm = () => {
 	const photo = async () => {
 		try {
 			setLoading(true)
-			if (!image1) {
-				toast.error("Enter Details");
-				setAvatar(
-					"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697");
-				setLoading(false);
-				return;
-			}
-			else {
-				const imageRef = ref(storage, `Photo/${name}`);
+			if (image1) {
+				const imageRef = ref(storage, `Photo/${name}_${aadharNo}`);
 				await uploadBytes(imageRef, image1);
-				const url = await getDownloadURL(imageRef);
-				await updateDoc(doc(db, "users", emails), {
-					photoURL: url,
-				});
-				setAvatar(
-					"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697")
-				setLoading(false);
-				setHome(true);
-				toast.success("Photo Uploaded Succesfully");
+				var url = await getDownloadURL(imageRef);
 			}
+			else
+				var url = avatar;
+
+			await updateDoc(doc(db, "users", emails), {
+				photoURL: url,
+			});
+			setAvatar(
+				"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697")
+			setLoading(false);
+			setHome(true);
+			toast.success("Photo Uploaded Succesfully");
+
 		} catch (error) {
 			toast.error(error.message);
 			setAvatar(
@@ -286,7 +292,7 @@ const RegisterForm = () => {
 		<>
 			{!loader ? (
 				<>
-					{emailPass ? (
+					{!emailPass ? (
 						<div className="flex flex-col justify-center items-center h-screen">
 							<div className="w-screen lg:w-1/2">
 								<div className='form space-y-4 rounded-md'>
@@ -552,7 +558,6 @@ const RegisterForm = () => {
 													<input
 
 														name="tempAdd"
-														required
 														placeholder="Temporary Address"
 														className="input-field"
 														type="text"

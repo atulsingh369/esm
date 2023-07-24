@@ -6,7 +6,8 @@ const Footer = () => {
     <>
       <footer className="bg-transparent bottom-0 border-t-2 border-dashed rounded-5xl mt-16">
         <div className="flex flex-col space-y-4 lg:flex-row justify-evenly items-center my-5 text-neutral-200">
-          © 2023 Copyright:
+          <span></span>
+          <span>© 2023 Copyright:</span>
           <Link href="/">
             <img
               src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
@@ -21,10 +22,9 @@ const Footer = () => {
           </Link>
         </div>
 
-        <div className="flex text-md font-semibold items-center justify-between">
-          <p>Made with ❤️</p>
-          <p>By Atul Singh</p>
-        </div>
+        <p className="font-semibold text-lg flex justify-center my-12">
+          Built with ❤️ By Atul Singh
+        </p>
       </footer>
     </>
   );
