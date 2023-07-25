@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { db, auth, storage } from "../config";
 import "./load.css"
@@ -62,6 +62,10 @@ const RegisterForm = () => {
 		DOB: "",
 	})
 
+	const timestamp = new Date().getTime();
+
+	const [regNo1, setRegNo1] = useState(116);
+
 	const [aadharNo, setAadharNo] = useState("");
 
 
@@ -97,18 +101,13 @@ const RegisterForm = () => {
 			});
 
 			await sendEmailVerification(res);
+
+
 			await setDoc(doc(db, "users", res.email), {
-				RegNo: res.uid,
 				displayName: res.displayName,
 				email: res.email,
 			});
-			setCurUser({
-				name: "",
-				email: "",
-				password: "",
-			});
 
-			setLoading(false);
 			setEmails(curUser.email);
 			setName(curUser.name);
 			setTimeout(() => {
@@ -117,13 +116,13 @@ const RegisterForm = () => {
 			toast.success("Registerd Succesfully");
 		} catch (error) {
 			toast.error(error.code);
-			setLoading(false)
-			setCurUser({
-				name: "",
-				email: "",
-				password: "",
-			});
 		}
+		setCurUser({
+			name: "",
+			email: "",
+			password: "",
+		});
+		setLoading(false)
 	};
 
 	//Adding Details of User
@@ -231,6 +230,22 @@ const RegisterForm = () => {
 		setAvatar(
 			"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697");
 	}
+
+	//Giving Registration Number
+	useEffect(() => {
+		var max = 0;
+		onSnapshot(collection(db, "users"), (querySnapshot) => {
+			querySnapshot.forEach((doc) => {
+				if (max < doc.data().timeStamp) {
+					max = doc.data().timeStamp;
+					setRegNo1(doc.data().RegNo);
+				}
+			});
+		});
+
+	}, [])
+
+
 	//Uploading Photo
 	const photo = async () => {
 		try {
@@ -244,20 +259,20 @@ const RegisterForm = () => {
 				var url = avatar;
 
 			await updateDoc(doc(db, "users", emails), {
+				RegNo: regNo1 + 1,
 				photoURL: url,
+				timeStamp: timestamp,
 			});
-			setAvatar(
-				"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697")
-			setLoading(false);
+
 			setHome(true);
 			toast.success("Photo Uploaded Succesfully");
 
 		} catch (error) {
 			toast.error(error.message);
-			setAvatar(
-				"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697")
-			setLoading(false);
 		}
+		setAvatar(
+			"https://ik.imagekit.io/xji6otwwkb/Profile.png?updatedAt=1680849745697")
+		setLoading(false);
 	}
 
 	// Slow Loading

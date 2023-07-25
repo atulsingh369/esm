@@ -62,7 +62,7 @@ const EditDetails = () => {
 			toast.success("Member Deleted Succesfully")
 			setTimeout(() => {
 				window.location.href = `/Members?email=${userEmail}`;
-			}, 1000);
+			}, 1500);
 		} catch (error) {
 			toast.error(error);
 		}
