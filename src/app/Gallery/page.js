@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import FuncNavbar from "../../../components/FuncNavabr";
 import Footer from "../../../components/Footer";
 import Loader from "../../../components/Loader";
+import { Fade } from "react-awesome-reveal";
 
 const Gallery = () => {
 	const [data, setData] = useState(null);
@@ -57,13 +58,15 @@ const Gallery = () => {
 						{data ? (
 							<ul className="flex items-center justify-center flex-wrap">
 								{data.map((item, index) => (
-									<li key={index} className="h-72 m-3 hover:scale-105 transition-all ease-in-out duration-300 grow p-2 border-4 items-center border-white rounded-box">
-										<img
-											src={item.URL}
-											alt="Gallery"
-											className="max-h-full min-w-full rounded-box object-cover align-bottom"
-										/>
-									</li>
+									<Fade delay={10} key={index}>
+										<li className="h-72 m-3 hover:scale-105 transition-all ease-in-out duration-300 grow p-2 border-4 items-center border-white rounded-box">
+											<img
+												src={item.URL}
+												alt="Gallery"
+												className="max-h-full min-w-full rounded-box object-cover align-bottom"
+											/>
+										</li>
+									</Fade>
 								))}
 
 								<li className="flex grow-10"></li>

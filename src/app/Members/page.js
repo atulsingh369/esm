@@ -10,6 +10,7 @@ import Loader from "../../../components/Loader";
 import "./search.css"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Fade } from "react-awesome-reveal";
 
 const Members = () => {
 
@@ -95,51 +96,53 @@ const Members = () => {
 					{queryData.length > 0 ? (
 						<div className="flex justify-center items-center flex-wrap">
 							{queryData.map((item, index) => (
-								<Link
-									key={index}
-									href={{
-										pathname: "/MemberDetails",
-										query: {
-											email: item.email,
-											userEmail: userEmail,
-										},
-									}}>
-									<div className="m-3 space-y-3 hover:scale-105 transition-all ease-in-out duration-300 p-2 border-4 items-center border-white rounded-box">
-										<img
-											src={item.photoURL}
-											className="rounded-box h-64 mx-auto object-cover align-bottom"
-											alt="Profile Pic"
-										/>
-										<p className="text-center">{item.displayName}</p>
-										<p className="text-center">{item.serviceField}</p>
-										<p className="text-center">{item.phoneNo}</p>
-									</div>
-								</Link>
+								<Fade delay={10} key={index}>
+									<Link
+										href={{
+											pathname: "/MemberDetails",
+											query: {
+												email: item.email,
+												userEmail: userEmail,
+											},
+										}}>
+										<div className="m-3 space-y-3 hover:scale-105 transition-all ease-in-out duration-300 p-2 border-4 items-center border-white rounded-box">
+											<img
+												src={item.photoURL}
+												className="rounded-box h-64 mx-auto object-cover align-bottom"
+												alt="Profile Pic"
+											/>
+											<p className="text-center">{item.displayName}</p>
+											<p className="text-center">{item.serviceField}</p>
+											<p className="text-center">{item.phoneNo}</p>
+										</div>
+									</Link>
+								</Fade>
 							))}
 						</div>
 					) : data ? (
 						<div className="flex justify-center items-center flex-wrap">
 							{data.map((item, index) => (
-								<Link
-									key={index}
-									href={{
-										pathname: "/MemberDetails",
-										query: {
-											email: item.email,
-											userEmail: userEmail,
-										},
-									}}>
-									<div className="m-3 space-y-3 hover:scale-105 transition-all ease-in-out duration-300 p-2 border-4 items-center border-white rounded-box">
-										<img
-											src={item.photoURL}
-											className="rounded-box h-64 mx-auto object-cover align-bottom"
-											alt="Profile Pic"
-										/>
-										<p className="text-center">{item.displayName}</p>
-										<p className="text-center">{item.serviceField}</p>
-										<p className="text-center">{item.phoneNo}</p>
-									</div>
-								</Link>
+								<Fade delay={10} key={index}>
+									<Link
+										href={{
+											pathname: "/MemberDetails",
+											query: {
+												email: item.email,
+												userEmail: userEmail,
+											},
+										}}>
+										<div className="m-3 space-y-3 hover:scale-105 transition-all ease-in-out duration-300 p-2 border-4 items-center border-white rounded-box">
+											<img
+												src={item.photoURL}
+												className="rounded-box h-64 mx-auto object-cover align-bottom"
+												alt="Profile Pic"
+											/>
+											<p className="text-center">{item.displayName}</p>
+											<p className="text-center">{item.serviceField}</p>
+											<p className="text-center">{item.phoneNo}</p>
+										</div>
+									</Link>
+								</Fade>
 							))}
 						</div>
 					) : (
