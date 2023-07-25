@@ -650,7 +650,8 @@ const Admin = () => {
 
 												<button
 													onClick={delCar}
-													className="button5 content2 mt-10 type1">{loading &&
+													className="button5 content2 mt-10 type1">
+													{loading &&
 														<div className="spinner">
 															<div></div>
 															<div></div>
@@ -659,7 +660,8 @@ const Admin = () => {
 															<div></div>
 															<div></div>
 														</div>
-													}</button>
+													}
+												</button>
 
 											</div>
 										)}

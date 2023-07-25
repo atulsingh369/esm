@@ -124,7 +124,7 @@ const EditDetails = () => {
 
 				{data ?
 					!editDetails ? (
-						<div>
+						<div className="select-none">
 							<div className="flex flex-col-reverse lg:flex-row justify-between lg:items-center">
 								<div className="space-y-4">
 									<p className="text-xl lg:text-2xl font-semibold">
@@ -212,7 +212,7 @@ const EditDetails = () => {
 
 						</div>
 					) : (
-						<div>
+						<div className="select-none">
 							<div className="flex flex-col-reverse lg:flex-row justify-between lg:items-center">
 								<div className="space-y-4">
 
