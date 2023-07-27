@@ -56,3 +56,17 @@
     transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
   }
 }
+
+.scroll::-webkit-scrollbar {
+  display: block;
+  width: 10px; /* width of the entire scrollbar */
+}
+.scroll::-webkit-scrollbar-track {
+  background: #fff; /* color of the tracking area */
+  border-radius: 50px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #ff671f; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 1px solid #fff; /* creates padding around scroll thumb */
+}

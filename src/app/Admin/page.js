@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
 	collection,
+	deleteDoc,
 	doc,
 	getDoc,
 	onSnapshot,
@@ -23,9 +24,11 @@ import Loader from "../../../components/Loader";
 const Admin = () => {
 	const [loading, setLoading] = useState(false);  // Loading/Unloading
 	const [image, setImage] = useState(null);  // Store image uploaded
+	const [noticeMedia, setNoticeMedia] = useState(null);  // Store notice media uploaded
 	const [photo, setPhoto] = useState(
 		"https://ik.imagekit.io/xji6otwwkb/ESM/bg.jpg?updatedAt=1689049226559"
 	);                                     // Store location of image in local device before uploading
+	const [PDF, setPDF] = useState("");    // Store Notice Media URL in local device before uploading
 	const [name, setName] = useState("");  // Store name of image uploaded
 	const [delName, setDelName] = useState([]);  // Store name of image to be deleted
 	const [adminData, setAdminData] = useState([]);  // Store Admin Details
@@ -35,12 +38,15 @@ const Admin = () => {
 	const [delgallery, setDelGallery] = useState(false); // Store Admin prmission to delete in Gallery
 	const [carousel, setCarousel] = useState(false); // Store Admin prmission to upload in Carousel
 	const [delcarousel, setDelCarousel] = useState(false); // Store Admin prmission to delete in Carousel
-	const [notice, setNotice] = useState(false); // Store Admin prmission to upload in Notice
-	const [delnotice, setDelNotice] = useState(false); // Store Admin prmission to delete in Notice
+	const [notice, setNotice] = useState(false); // Store Admin prmission to upload note in Notice
+	const [delnotice, setDelNotice] = useState(false); // Store Admin prmission to delete note in Notice
+	const [noticeUpload, setNoticeUpload] = useState(false); // Store Admin prmission to upload media in Notice
+	const [delNoticeUpload, setDelNoticeUpload] = useState(false); // Store Admin prmission to delete media in Notice
 
 	const [data, setData] = useState(null) // Store Current data of Gallery/Carousel/Notice
 	const [checked, setChecked] = useState(false) // Check whether checkbox is checked or not
 
+	const [dateNotice, setDateNotice] = useState("") // Store Date of Notice to be deleted
 
 	const searchParams = useSearchParams()
 
@@ -54,6 +60,12 @@ const Admin = () => {
 		setName(e.target.files[0].name);
 	};
 
+	// Displaying Media
+	const handleChange1 = async (e) => {
+		setPDF(URL.createObjectURL(e.target.files[0]));
+		setNoticeMedia(e.target.files[0]);
+		setName(e.target.files[0].name);
+	}
 
 
 	//Displaying Gallery Data
@@ -275,13 +287,7 @@ const Admin = () => {
 			}
 
 			// Getting Date
-			var today = new Date();
-			var date =
-				today.getFullYear() +
-				"-" +
-				(today.getMonth() + 1) +
-				"-" +
-				today.getDate();
+			var date = new Date().toISOString().split("T")[0]
 
 			await setDoc(doc(db, "notices", date), {
 				Notice: note,
@@ -300,6 +306,133 @@ const Admin = () => {
 		}
 	};
 
+	//Delete Notice
+	const delNote = async () => {
+		if (!dateNotice) {
+			toast.error("Enter Date");
+			return;
+		}
+		setLoading(true);
+		try {
+
+			const docRef = doc(db, "notices", dateNotice);
+			const docSnap = await getDoc(docRef);
+
+			if (docSnap.exists()) {
+				await deleteDoc(doc(db, "notices", dateNotice));
+				toast.success("Notice Deleted Sucessfully")
+			} else {
+				toast.error("No Such Notice !")
+			}
+		} catch (error) {
+			toast.error(error);
+		}
+		setDateNotice("");
+		setDelNotice(false);
+		setLoading(false);
+	}
+
+
+
+	//Displaying Notice Media
+	const dispNoteice = async () => {
+		setLoading(true);
+
+		const docRef = doc(db, "gallery", "images");
+		try {
+			const docSnap = await getDoc(docRef);
+
+			if (docSnap.exists()) {
+				setData(docSnap.data().images)
+
+			} else {
+				console.log("No such document!");
+			}
+
+			setDelGallery(true);
+			setGalery(false);
+
+		} catch (error) {
+			toast.error(error)
+		}
+		setLoading(false);
+	}
+
+	//Uploading Notice Media
+	const Noticeupload = async () => {
+		setLoading(true);
+		if (!noticeMedia) {
+			toast.error("Media not Selected");
+			return;
+		}
+
+		try {
+			// Getting data
+			const docRef = doc(db, "Notice Media", "Media");
+			const docSnap = await getDoc(docRef);
+
+			// uploading Photo
+			const mediaRef = ref(storage, `Notices/${name}`);
+			await uploadBytes(mediaRef, noticeMedia);
+			const url = await getDownloadURL(mediaRef);
+
+			//Saving URL of photo in JSON format
+			var mediaData = { Name: name, MediaURL: url }
+			// Checking for Data
+			if (!mediaData) {
+				toast.error("Media not Uploaded");
+				setNoticeMedia(null)
+				setName("");
+				setNoticeUpload(false);
+				setLoading(false);
+				return;
+			}
+			// If data exist save it to array otherwise create new
+			if (docSnap.exists()) {
+				await setDoc(doc(db, "Notice Media", "Media"), {
+					media: [...docSnap.data().media, mediaData]
+				});
+			} else {
+				await setDoc(doc(db, "Notice Media", "Media"), {
+					media: [mediaData],
+				});
+			}
+			toast.success("Media Uploaded Succesfully");
+		} catch (error) {
+			toast.error(error.code);
+		}
+		setNoticeMedia(null)
+		setName("");
+		setNoticeUpload(false);
+		setLoading(false);
+	};
+
+	//Delete Notice Media
+	const delNoticeMedia = async () => {
+		setLoading(true);
+
+		try {
+			var myArray = data.filter((item) => !delName.includes(item.Name));
+
+			await setDoc(doc(db, "gallery", "images"), {
+				images: [...myArray],
+			});
+			toast.success("Photo Deleted Succesfully")
+
+		} catch (error) {
+			toast.error(error)
+		}
+		setName("");
+		setDelName([]);
+		setDelGallery(false);
+		setLoading(false);
+		setData(null);
+		setChecked(false);
+		myArray = null;
+	}
+
+
+
 	//Cancel all Business
 	const cancel = () => {
 		setGalery(false);
@@ -308,6 +441,8 @@ const Admin = () => {
 		setDelCarousel(false);
 		setNotice(false);
 		setDelNotice(false);
+		setNoticeUpload(false);
+		setDelNoticeUpload(false);
 		setData(null);
 		setName(null);
 		setChecked(false);
@@ -484,36 +619,39 @@ const Admin = () => {
 													</svg>
 												</span>
 
-												{data ? (
-													data.map((item, index) => (
-														<label
-															htmlFor={item.Name}
-															key={index}
-															onChange={(e) => { e.target.checked ? setChecked(true) : index }}
-														>
-															<div className="flex w-full cursor-pointer justify-between rounded-xl mt-10 items-center border-2 border-dashed p-2 flex-row">
-																<p>{item.Name}</p>
-																<input
-																	id={item.Name}
-																	type="checkbox"
-																	onChange={(e) => {
-																		delName.length > 0 ?
-																			setDelName([...delName, e.target.id]) : setDelName([e.target.id]);
-																	}}
-																	className={`${checked ? "w-7 h-7 rounded-xl" : "hidden"} accent-blue-500`} />
-																<div className="h-24 w-24 items-center">
-																	<img
-																		src={item.URL}
-																		alt="Gallery"
-																		className="max-h-full min-w-full rounded-box object-cover"
+												<div className="h-96 overflow-y-scroll scroll">
+													{data ? (
+														data.map((item, index) => (
+															<label
+																htmlFor={item.Name}
+																key={index}
+																onChange={(e) => { e.target.checked ? setChecked(true) : index }}
+															>
+																<div className="flex w-full cursor-pointer justify-between rounded-xl mt-10 items-center border-2 border-dashed p-2 flex-row">
+																	<p>{item.Name}</p>
+																	<input
+																		id={item.Name}
+																		type="checkbox"
+																		onChange={(e) => {
+																			delName.length > 0 ?
+																				setDelName([...delName, e.target.id]) : setDelName([e.target.id]);
+																		}}
+																		className={`${checked ? "w-7 h-7 rounded-xl" : "hidden"} accent-blue-500`}
 																	/>
+																	<div className="h-24 w-24 items-center">
+																		<img
+																			src={item.URL}
+																			alt="Gallery"
+																			className="max-h-full min-w-full rounded-box object-cover"
+																		/>
+																	</div>
 																</div>
-															</div>
-														</label>
-													))
-												) : (
-													<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>
-												)}
+															</label>
+														))
+													) : (
+														<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>
+													)}
+												</div>
 
 												<button
 													onClick={delGal}
@@ -526,7 +664,8 @@ const Admin = () => {
 															<div></div>
 															<div></div>
 														</div>
-													}</button>
+													}
+												</button>
 
 											</div>
 										)}
@@ -617,36 +756,38 @@ const Admin = () => {
 													</svg>
 												</span>
 
-												{data ? (
-													data.map((item, index) => (
-														<label
-															htmlFor={item.Name}
-															key={index}
-															onChange={(e) => { e.target.checked ? setChecked(true) : index }}
-														>
-															<div className="flex w-full cursor-pointer justify-between rounded-xl mt-10 items-center border-2 border-dashed p-2 flex-row">
-																<p>{item.Name}</p>
-																<input
-																	id={item.Name}
-																	type="checkbox"
-																	onChange={(e) => {
-																		delName.length > 0 ?
-																			setDelName([...delName, e.target.id]) : setDelName([e.target.id]);
-																	}}
-																	className={`${checked ? "w-7 h-7 rounded-xl" : "hidden"} accent-blue-500`} />
-																<div className="h-24 w-24 items-center">
-																	<img
-																		src={item.URL}
-																		alt="Gallery"
-																		className="max-h-full min-w-full rounded-box object-cover"
-																	/>
+												<div className="h-96 overflow-y-scroll scroll">
+													{data ? (
+														data.map((item, index) => (
+															<label
+																htmlFor={item.Name}
+																key={index}
+																onChange={(e) => { e.target.checked ? setChecked(true) : index }}
+															>
+																<div className="flex w-full cursor-pointer justify-between rounded-xl mt-10 items-center border-2 border-dashed p-2 flex-row">
+																	<p>{item.Name}</p>
+																	<input
+																		id={item.Name}
+																		type="checkbox"
+																		onChange={(e) => {
+																			delName.length > 0 ?
+																				setDelName([...delName, e.target.id]) : setDelName([e.target.id]);
+																		}}
+																		className={`${checked ? "w-7 h-7 rounded-xl" : "hidden"} accent-blue-500`} />
+																	<div className="h-24 w-24 items-center">
+																		<img
+																			src={item.URL}
+																			alt="Gallery"
+																			className="max-h-full min-w-full rounded-box object-cover"
+																		/>
+																	</div>
 																</div>
-															</div>
-														</label>
-													))
-												) : (
-													<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>
-												)}
+															</label>
+														))
+													) : (
+														<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>
+													)}
+												</div>
 
 												<button
 													onClick={delCar}
@@ -675,7 +816,10 @@ const Admin = () => {
 										{/* Upload Notice */}
 										{!notice ? (
 											<button
-												onClick={() => setNotice(true)}
+												onClick={() => {
+													setNotice(true);
+													setDelNotice(false);
+												}}
 												className="button4 mx-auto mt-10">
 												<span className="circle1"></span>
 												<span className="circle2"></span>
@@ -719,7 +863,10 @@ const Admin = () => {
 										{/* Delete Notice */}
 										{!delnotice ? (
 											<button
-												onClick={() => setDelNotice(true)}
+												onClick={() => {
+													setNotice(false);
+													setDelNotice(true);
+												}}
 												className="button4 mx-auto mt-10">
 												<span className="circle1"></span>
 												<span className="circle2"></span>
@@ -741,20 +888,144 @@ const Admin = () => {
 														<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
 													</svg>
 												</span>
-												<div className="field">
+												<div className="field flex flex-col">
+													<label htmlFor="note" className="py-2 my-1 w-full text-center font-semibold text-2xl bg-[#ff671f] rounded-xl">
+														Enter Date of Notice to be Deleted
+													</label>
 													<input
-														name="name"
+														id="note"
+														name="date"
 														required
-														placeholder="Enter name of Photo"
+														placeholder="Enter Date of Notice"
 														className="input-field"
-														type="text"
-														onChange={(e) => setName(e.target.value)}
-														value={name}
+														type="date"
+														onChange={(e) => setDateNotice(e.target.value)}
+														value={dateNotice}
 													/>
 												</div>
 
 												<button
-													onClick={delGal}
+													onClick={delNote}
+													className="button5 content2 mt-10 type1"></button>
+
+											</div>
+										)}
+									</div>
+								</div>
+
+								{/* Notice Upload */}
+								<div>
+									<p className="text-3xl text-center">Notice Upload</p>
+									<div className="flex justify-around flex-col lg:flex-row space-y-6 items-center">
+										{/* Upload Notice Media */}
+										{!noticeUpload ? (
+											<button
+												onClick={() => {
+													setNoticeUpload(true);
+													setDelNoticeUpload(false);
+												}}
+												className="button4 mx-auto mt-10">
+												<span className="circle1"></span>
+												<span className="circle2"></span>
+												<span className="circle3"></span>
+												<span className="circle4"></span>
+												<span className="circle5"></span>
+												<span className="text">Upload Media</span>
+											</button>
+										) : (
+											<div className="space-y-6 mx-auto mt-10 w-full lg:w-1/2">
+												<span onClick={cancel} className="float-right m-5 cursor-pointer">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="16"
+														height="16"
+														fill="currentColor"
+														className="input-icon"
+														viewBox="0 0 384 512">
+														<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+													</svg>
+												</span>
+												<label
+													htmlFor="aad"
+													className="flex mt-10 flex-col p-5 items-center border-4 border-dashed border-white rounded-xl">
+													<object
+														data={PDF}
+														type="application/pdf"
+														width="100%"
+														height="100%">
+													</object>
+													<input
+														onChange={handleChange1}
+														type="file"
+														id="aad"
+														accept=".pdf"
+														className="mx-auto mt-8 text-sm text-white file:mr-4 file:py-2 file:px-4 file:bg-[#FF671F] file:rounded-full file:border-0 file:text-sm file:font-semibold hover:file:cursor-pointer"
+													/>
+												</label>
+
+												<button
+													onClick={Noticeupload}
+													className="button5 mt-10 content1 type1">
+													{loading &&
+														<div className="spinner">
+															<div></div>
+															<div></div>
+															<div></div>
+															<div></div>
+															<div></div>
+															<div></div>
+														</div>
+													}</button>
+
+
+											</div>
+										)}
+										{/* Delete Notice Media */}
+										{!delNoticeUpload ? (
+											<button
+												onClick={() => {
+													setNoticeUpload(false);
+													setDelNoticeUpload(true);
+												}}
+												className="button4 mx-auto mt-10">
+												<span className="circle1"></span>
+												<span className="circle2"></span>
+												<span className="circle3"></span>
+												<span className="circle4"></span>
+												<span className="circle5"></span>
+												<span className="text">Delete Media</span>
+											</button>
+										) : (
+											<div className="space-y-6 mt-12 mx-auto lg:w-1/2 w-full">
+												<span onClick={cancel} className="float-right m-5 cursor-pointer">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="16"
+														height="16"
+														fill="currentColor"
+														className="input-icon"
+														viewBox="0 0 384 512">
+														<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+													</svg>
+												</span>
+												<div className="field flex flex-col">
+													<label htmlFor="note" className="py-2 my-1 w-full text-center font-semibold text-2xl bg-[#ff671f] rounded-xl">
+														Enter Date of Notice to be Deleted
+													</label>
+													<input
+														id="note"
+														name="date"
+														required
+														placeholder="Enter Date of Notice"
+														className="input-field"
+														type="date"
+														onChange={(e) => setDateNotice(e.target.value)}
+														value={dateNotice}
+													/>
+												</div>
+
+												<button
+													onClick={delNote}
 													className="button5 content2 mt-10 type1"></button>
 
 											</div>
