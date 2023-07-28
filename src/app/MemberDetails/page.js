@@ -54,12 +54,12 @@ const EditDetails = () => {
 	const deleteMember = async () => {
 		setLoading(true);
 		if (user.role !== "admin") {
-			toast.error("No Permission to Delete");
+			toast.error("No Permission to Remove");
 			return;
 		}
 		try {
 			await deleteDoc(doc(db, "users", data.email));
-			toast.success("Member Deleted Succesfully")
+			toast.success("Member Removed Succesfully")
 			setTimeout(() => {
 				window.location.href = `/Members?email=${userEmail}`;
 			}, 1500);
@@ -192,6 +192,7 @@ const EditDetails = () => {
 							} */}
 
 
+						{/* Remove Member Button */}
 						{user && user.role == "admin" &&
 							<div className="flex justify-center items-center lg:mt-10">
 								{!confirm ?
@@ -203,7 +204,7 @@ const EditDetails = () => {
 										<span className="circle3"></span>
 										<span className="circle4"></span>
 										<span className="circle5"></span>
-										<span className="text">Delete Member</span>
+										<span className="text">Remove Member</span>
 									</button>
 									:
 									<button
@@ -224,7 +225,7 @@ const EditDetails = () => {
 													<div></div>
 													<div></div>
 												</div>
-												: `Delete Mr. ${data.displayName} !!`}
+												: `Remove Mr. ${data.displayName} !!`}
 										</span>
 									</button>}
 
