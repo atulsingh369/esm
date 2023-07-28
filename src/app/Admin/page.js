@@ -326,7 +326,7 @@ const Admin = () => {
 
 
 	//Displaying Notice Media
-	const dispNotice = async () => {
+	const dispNoticeMedia = async () => {
 		setLoading(true);
 
 		const docRef = doc(db, "Notice Media", "Media");
@@ -974,7 +974,7 @@ const Admin = () => {
 										{/* Delete Notice Media */}
 										{!delNoticeUpload ? (
 											<button
-												onClick={() => dispNotice}
+												onClick={dispNoticeMedia}
 												className="button4 mx-auto mt-10">
 												<span className="circle1"></span>
 												<span className="circle2"></span>
@@ -1016,11 +1016,12 @@ const Admin = () => {
 																		}}
 																		className={`${checked ? "w-7 h-7 rounded-xl" : "hidden"} accent-blue-500`} />
 																	<div className="h-24 w-24 items-center">
-																		<img
-																			src={item.URL}
-																			alt="Gallery"
-																			className="max-h-full min-w-full rounded-box object-cover"
-																		/>
+																		<object
+																			data={item.MediaURL}
+																			type="application/pdf"
+																			width="100%"
+																			height="100%">
+																		</object>
 																	</div>
 																</div>
 															</label>
