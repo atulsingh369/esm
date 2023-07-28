@@ -367,8 +367,10 @@ const Admin = () => {
 			await uploadBytes(mediaRef, noticeMedia);
 			const url = await getDownloadURL(mediaRef);
 
+			const date = new Date().toLocaleDateString();
+
 			//Saving URL of photo in JSON format
-			var mediaData = { Name: name, MediaURL: url }
+			var mediaData = { Name: name, MediaURL: url, Date: date }
 			// Checking for Data
 			if (!mediaData) {
 				toast.error("Media not Uploaded");
