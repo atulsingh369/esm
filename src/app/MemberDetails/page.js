@@ -129,7 +129,7 @@ const EditDetails = () => {
 											Aadhar No : {data.aadharNo}
 										</p>
 										<p className="text-xl lg:text-2xl font-semibold">
-											Pan No : {data.panNo}
+											Pan No : {data.panNo ? data.panNo : "N/A"}
 										</p>
 									</div>
 								}
