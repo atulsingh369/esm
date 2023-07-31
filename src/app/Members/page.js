@@ -91,12 +91,13 @@ const Members = () => {
 
 
 					<div className="flex justify-center lg:justify-end lg:mx-32 mb-12 lg:text-2xl text-xl">
-						Total Members : {queryData.length > 0 ? queryData.length : data.length}
+						Total Members : {queryData.length > 0 ? queryData.length : data.length - 1}
 					</div>
 
 					{queryData.length > 0 ? (
 						<div className="flex justify-center items-center flex-wrap">
 							{queryData.map((item, index) => (
+								item.RegNo !== 0 &&
 								<Fade delay={10} key={index}>
 									<Link
 										href={{
@@ -123,6 +124,7 @@ const Members = () => {
 					) : data ? (
 						<div className="flex justify-center items-center flex-wrap">
 							{data.map((item, index) => (
+								item.RegNo !== 0 &&
 								<Fade delay={10} key={index}>
 									<Link
 										href={{

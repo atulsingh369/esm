@@ -494,9 +494,11 @@ const Admin = () => {
 										<p className="text-xl lg:text-2xl font-semibold">
 											Mr. {adminData.displayName}
 										</p>
-										<p className="text-xl lg:text-2xl font-semibold">
-											{adminData.serviceField}
-										</p>
+										{adminData.RegNo !== 0 &&
+											<p className="text-xl lg:text-2xl font-semibold">
+												{adminData.serviceField}
+											</p>
+										}
 										<p className="text-xl lg:text-2xl font-semibold">
 											{adminData.phoneNo}
 										</p>
