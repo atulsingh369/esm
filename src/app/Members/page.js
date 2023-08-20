@@ -26,7 +26,7 @@ const Members = () => {
 		setSearch(e.target.value);
 		setQueryData([]);
 		data.forEach((item) => {
-			if (item.displayName.toUpperCase().includes(search.trim().toUpperCase())) {
+			if (item.displayName.toUpperCase().includes(search.trim().toUpperCase()) || item.serviceNO.toUpperCase().includes(search.trim().toUpperCase())) {
 				setQueryData((queryData) => [...queryData, item]);
 			}
 		})
