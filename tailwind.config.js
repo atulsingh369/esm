@@ -16,6 +16,7 @@ module.exports = {
 			backgroundImage: {
 				"middle-bar":
 					"url('https://ik.imagekit.io/e5ixuxrlb/esm/wp2629004-camouflage-wallpaper-hd.jpg?updatedAt=1684222571818')",
+				"logo": "url('https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657')",
 			},
 			flexGrow: {
 				2: '2',
