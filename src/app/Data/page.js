@@ -47,12 +47,12 @@ const Data = () => {
 	}, [userEmail])
 
 	const print = () => {
-		//console.log('print');  
-		let printContents = document.getElementById('data').innerHTML;
-		// printContents.style.color = "black";
+		let printC = document.getElementById('data');
 		let originalContents = document.body.innerHTML;
-		document.body.innerHTML = printContents;
+		printC.children[2].children[1].classList.remove("overflow-scroll");
+		document.body.innerHTML = printC.innerHTML;
 		window.print();
+		printC.children[2].children[1].classList.add("overflow-scroll");
 		document.body.innerHTML = originalContents;
 	}
 
@@ -82,11 +82,16 @@ const Data = () => {
 
 					{user && user.role == "admin" ?
 						<div id="data" className="px-5 print:text-black">
-							<img
-								src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
-								alt="logo"
-								className="h-20 mx-0 lg:mx-2 lg:h-32"
-							/>
+							<div className="flex justify-evenly items-center">
+								<img
+									src="https://ik.imagekit.io/e5ixuxrlb/esm/logo.png?updatedAt=1685270347657"
+									alt="logo"
+									className="h-20 mx-0 lg:mx-2 lg:h-32"
+								/>
+								<p className="text-lg underline underline-offset-4 lg:text-2xl font-semibold">
+									भूतपूर्व सैनिक जन कल्याण समिति, उत्तर प्रदेश
+								</p>
+							</div>
 							<h1 id="heading1">
 								Members Data
 							</h1>
@@ -94,8 +99,8 @@ const Data = () => {
 							{data ?
 								<div className="space-y-12">
 									{data.length > 0 && <div className="text-2xl font-semibold flex justify-end">Total Count : {data.length}</div>}
-									<div className="bg-logo bg-repeat-y bg-auto bg-center backdrop-blur-md">
-										<table className="w-full text-xl rounded-box">
+									<div className="h-96 overflow-scroll bg-logo/10 bg-repeat-y bg-auto bg-center">
+										<table className="w-full text-xl rounded-box backdrop-opacity-10">
 											<tr>
 												<th className="py-4 border-2 border-white">Reg No</th>
 												<th className="py-4 border-2 border-white">Name</th>
@@ -108,7 +113,7 @@ const Data = () => {
 											</tr>
 											{data.map((item, index) => {
 												return (
-													<tr key={index}>
+													<tr key={index} className={index % 2 == 0 && "bg-green-900"}>
 														<td className="text-center py-4 border-2 border-white">{item.RegNo}</td>
 														<td className="text-center py-4 border-2 border-white">{item.displayName}</td>
 														<td className="text-center py-4 border-2 border-white">{item.fatherName}</td>
