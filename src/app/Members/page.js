@@ -15,6 +15,7 @@ import { Fade } from "react-awesome-reveal";
 const Members = () => {
 
 	const [data, setData] = useState([]);
+	const [user, setUser] = useState(null);
 	const [queryData, setQueryData] = useState([]);
 	const [search, setSearch] = useState("");
 
@@ -33,18 +34,23 @@ const Members = () => {
 		search === "" && setQueryData([]);
 	}
 
+	// Getting Members Data
 	useEffect(() => {
-		const unsubscribe = onSnapshot(collection(db, "users"), (querySnapshot) => {
-			querySnapshot.forEach((doc) => {
-				setData(data => [...data, doc.data()]);
-			});
-		});
+		const unsubscribe = onSnapshot(
+			query(collection(db, "users"), where("RegNo", "!=", 0)),
+			(querySnapshot) => querySnapshot.forEach((doc) => setData(data => [...data, doc.data()]))
+		);
 
+		const unsub = onSnapshot(
+			query(collection(db, "users"), where("email", "==", userEmail)),
+			(querySnapshot) => querySnapshot.forEach((doc) => setUser(doc.data()))
+		);
 
 		return () => {
 			unsubscribe;
+			unsub;
 		}
-	}, [])
+	}, [userEmail])
 
 	const [loader, setLoader] = useState(true);
 
@@ -90,8 +96,31 @@ const Members = () => {
 					</div>
 
 
-					<div className="flex justify-center lg:justify-end lg:mx-32 mb-12 lg:text-2xl text-xl">
-						Total Members : {queryData.length > 0 ? queryData.length : data.length - 1}
+					<div className="flex items-center justify-center lg:justify-end lg:mx-32 mb-12 lg:text-2xl text-xl">
+						Total Members : {queryData.length > 0 ? queryData.length : data.length}
+						{/* Members List */}
+						{user && user.role == "admin" &&
+							<Link
+								href={{
+									pathname: "/Data",
+									query: {
+										userEmail: userEmail,
+									},
+								}}>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="36"
+									height="36"
+									viewBox="0 0 24 24"
+									className="ml-5"
+								>
+									<path
+										fill="currentColor"
+										d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11l-5 5Zm-6 4q-.825 0-1.413-.588T4 18v-3h2v3h12v-3h2v3q0 .825-.588 1.413T18 20H6Z"
+									/>
+								</svg>
+							</Link>
+						}
 					</div>
 
 					{queryData.length > 0 ? (
@@ -124,7 +153,6 @@ const Members = () => {
 					) : data ? (
 						<div className="flex justify-center items-center flex-wrap">
 							{data.map((item, index) => (
-								item.RegNo !== 0 &&
 								<Fade delay={10} key={index}>
 									<Link
 										href={{

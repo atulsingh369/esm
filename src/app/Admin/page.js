@@ -11,6 +11,7 @@ import { db, storage } from "../config";
 import "./load.css";
 import { useSearchParams } from "next/navigation";
 import Loader from "../../../components/Loader";
+import Link from "next/link";
 
 const Admin = () => {
 	const [loading, setLoading] = useState(false);  // Loading/Unloading

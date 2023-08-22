@@ -15,6 +15,7 @@ import Footer from "../../../components/Footer";
 import Image from "next/image";
 import Loader from "../../../components/Loader";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const RegisterForm = () => {
 	const [loading, setLoading] = useState(false);
@@ -777,7 +778,15 @@ const RegisterForm = () => {
 															</div>
 															)
 																: (
-																	<FuncNavbar />)}
+																	<>
+																		<FuncNavbar />
+																		<p className="text-2xl flex justify-center font-semibold">
+																			Go back to
+																			<Link href="/" className="text-secondary underline">&nbsp;Home&nbsp;</Link>
+																			to Login
+																		</p>
+																	</>
+																)}
 														</div>
 														<ToastContainer />
 													</div>)}
