@@ -132,6 +132,7 @@ const RegisterForm = () => {
 				await updateDoc(doc(db, "users", emails), {
 					fatherName: details.fatherName,
 					DOB: details.DOB,
+					DOJ: details.DOJ,
 					phoneNo: details.phn,
 					secPhoneNo: details.secPhn,
 					serviceNo: details.serviceNo,
@@ -512,7 +513,7 @@ const RegisterForm = () => {
 													</svg>
 
 													<input
-														name="fatherName"
+														name="DOB"
 														required
 														placeholder="Date of Birth"
 														className="input-field"
@@ -521,6 +522,29 @@ const RegisterForm = () => {
 															...details, DOB: e.target.value
 														})}
 														value={details.DOB}
+													/>
+												</div>
+
+												<div className="field">                              {/* DOJ */}
+													<svg
+														className="input-icon"
+														xmlns="http://www.w3.org/2000/svg"
+														width="12"
+														height="12"
+														fill="currentColor"
+														viewBox="0 0 448 512">
+														<path d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z" />
+													</svg>
+
+													<input
+														name="DOJ"
+														placeholder="Date of Joining"
+														className="input-field"
+														type="date"
+														onChange={(e) => setDetails({
+															...details, DOJ: e.target.value
+														})}
+														value={details.DOJ}
 													/>
 												</div>
 
