@@ -47,11 +47,16 @@ const Data = () => {
 
 	const print = () => {
 		let printC = document.getElementById('data');
+		let printDiv = document.getElementById('print');
 		let originalContents = document.body.innerHTML;
-		printC.children[2].children[1].classList.remove("overflow-scroll");
+		printC.children[2].children[2].classList.remove("overflow-y-scroll");
+		printC.children[2].children[2].classList.remove("border-4");
+		printC.children[2].children[1].classList.add("hidden");
 		document.body.innerHTML = printC.innerHTML;
 		window.print();
-		printC.children[2].children[1].classList.add("overflow-scroll");
+		printC.children[2].children[2].classList.add("overflow-y-scroll");
+		printC.children[2].children[2].classList.add("border-4");
+		printC.children[2].children[1].classList.remove("hidden");
 		document.body.innerHTML = originalContents;
 	}
 
@@ -96,16 +101,43 @@ const Data = () => {
 							</h1>
 
 							{data ?
-								<div className="space-y-12">
+								<div className="space-y-12 mx-2">
 									{data.length > 0 && <div className="text-2xl font-semibold flex justify-end">Total Count : {data.length}</div>}
-									<div className="h-96 overflow-scroll bg-logo/10 bg-repeat-y bg-auto bg-center">
-										<table className="w-full text-xl rounded-box backdrop-opacity-10">
+
+									<div id="print" className="flex justify-center">
+										<button className="button4 w-full lg:w-1/4" onClick={print}>
+											<span className="circle1"></span>
+											<span className="circle2"></span>
+											<span className="circle3"></span>
+											<span className="circle4"></span>
+											<span className="circle5"></span>
+											<span className="text flex justify-center items-center text-xl">
+												Print &nbsp;&nbsp;
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="24"
+													height="24"
+													viewBox="0 0 24 24"
+												>
+													<path
+														fill="currentColor"
+														d="M18 7H6V3h12v4Zm0 5.5q.425 0 .713-.288T19 11.5q0-.425-.288-.713T18 10.5q-.425 0-.713.288T17 11.5q0 .425.288.713T18 12.5ZM16 19v-4H8v4h8Zm2 2H6v-4H2v-6q0-1.275.875-2.138T5 8h14q1.275 0 2.138.863T22 11v6h-4v4Z"
+													/>
+												</svg>
+											</span>
+										</button>
+									</div>
+
+									<div className="h-[65rem] rounded-box border-4 border-t-orange-600 border-b-green-600 overflow-y-scroll scroll bg-logo/10 bg-repeat-y bg-auto bg-center">
+										<table className="w-full text-lg rounded-box backdrop-opacity-10">
 											<tr>
 												<th className="py-4 border-2 border-white">Reg No</th>
 												<th className="py-4 border-2 border-white">Name</th>
 												<th className="py-4 border-2 border-white">Father&apos;s Name</th>
 												<th className="py-4 border-2 border-white">Service No</th>
 												<th className="py-4 border-2 border-white">Service Field</th>
+												<th className="py-4 border-2 border-white">Current EMP</th>
+												<th className="py-4 border-2 border-white">Date of Joining</th>
 												<th className="py-4 border-2 border-white">Mobile No</th>
 												<th className="py-4 border-2 border-white">Aadhar No</th>
 												<th className="py-4 border-2 border-white">Address</th>
@@ -118,6 +150,8 @@ const Data = () => {
 														<td className="text-center py-4 border-2 border-white">{item.fatherName}</td>
 														<td className="text-center py-4 border-2 border-white">{item.serviceNo}</td>
 														<td className="text-center py-4 border-2 border-white">{item.serviceField}</td>
+														<td className="text-center py-4 border-2 border-white">{item.currentEMP}</td>
+														<td className="text-center py-4 border-2 border-white">{item.DOJ}</td>
 														<td className="text-center py-4 border-2 border-white">{item.phoneNo}</td>
 														<td className="text-center py-4 border-2 border-white">{item.aadharNo}</td>
 														<td className="text-center py-4 border-2 border-white">{item.address}</td>
@@ -127,16 +161,7 @@ const Data = () => {
 										</table>
 									</div>
 
-									<div className="flex justify-center">
-										<button className="button4 w-full lg:w-1/4" onClick={print}>
-											<span className="circle1"></span>
-											<span className="circle2"></span>
-											<span className="circle3"></span>
-											<span className="circle4"></span>
-											<span className="circle5"></span>
-											<span className="text">Print</span>
-										</button>
-									</div>
+
 								</div>
 								:
 								<p className="text-center text-2xl my-48">😕 No Data Found 😕</p>

@@ -110,6 +110,14 @@ const EditDetails = () => {
 								<p className="text-xl lg:text-2xl font-semibold">
 									Service Field : {data.serviceField}
 								</p>
+								<p className="text-xl lg:text-2xl font-semibold">
+									Currently Employed : {data.currentEMP ? data.currentEMP : "N/A"}
+								</p>
+								{user && user.role == "admin" &&
+									<p className="text-xl lg:text-2xl font-semibold">
+										D/O Joining. : {data.DOJ ? data.DOJ : "N/A"}
+									</p>
+								}
 							</div>
 
 							<div className="lg:w-96 lg:mb-0 mb-10 lg:h-96 w-80 h-80">

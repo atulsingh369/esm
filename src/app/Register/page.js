@@ -49,19 +49,11 @@ const RegisterForm = () => {
 		panNo: "",
 		fatherName: "",
 		DOB: "",
+		DOJ: "",
+		currentEMP: "",
 	}
 
-	const [details, setDetails] = useState({
-		phn: "",
-		secPhn: "",
-		serviceNo: "",
-		serviceField: "",
-		address: "",
-		tempAdd: "",
-		panNo: "",
-		fatherName: "",
-		DOB: "",
-	})
+	const [details, setDetails] = useState(initialValues);
 
 	const timestamp = new Date().getTime();
 
@@ -147,6 +139,7 @@ const RegisterForm = () => {
 					address: details.address,
 					tempAdd: details.tempAdd,
 					panNo: details.panNo,
+					currentEMP: details.currentEMP,
 					role: "user",
 				});
 				setDetails(initialValues);
@@ -554,7 +547,7 @@ const RegisterForm = () => {
 																...details, serviceField: e.target.value
 															})}
 														className="w-full h-5 bg-[#171717] rounded-full outline-none ">
-														<option value="0" key="0">
+														<option value="0" key="0" required>
 															Select Your Service Field
 														</option>
 														<option value="Army" key="1">
@@ -567,6 +560,30 @@ const RegisterForm = () => {
 															Navy
 														</option>
 													</select>
+												</div>
+
+												<div className="field">                              {/*EMP Status*/}
+													<svg
+														className="input-icon"
+														xmlns="http://www.w3.org/2000/svg"
+														width="12"
+														height="12"
+														fill="currentColor"
+														viewBox="0 0 448 512">
+														<path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+													</svg>
+
+													<input
+														name="currentEMP"
+														required
+														placeholder="Employment Status"
+														className="input-field"
+														type="text"
+														onChange={(e) => setDetails({
+															...details, currentEMP: e.target.value
+														})}
+														value={details.currentEMP}
+													/>
 												</div>
 
 												<div className="field">                              {/* Temp Address*/}

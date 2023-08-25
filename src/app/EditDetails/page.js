@@ -35,6 +35,7 @@ const EditDetails = () => {
 		tempAdd: "",
 		panNo: "",
 		DOB: "",
+		currentEMP: "",
 	})
 
 
@@ -93,6 +94,7 @@ const EditDetails = () => {
 				secPhoneNo: details.secPhoneNo ? details.secPhoneNo : data.secPhoneNo ? data.secPhoneNo : "",
 				serviceNo: details.serviceNo ? details.serviceNo : data.serviceNo,
 				serviceField: details.serviceField ? details.serviceField : data.serviceField,
+				currentEMP: details.currentEMP ? details.currentEMP : data.currentEMP,
 				address: details.address ? details.address : data.address,
 				tempAdd: details.tempAdd ? details.tempAdd : data.tempAdd ? data.tempAdd : "",
 				panNo: details.panNo ? details.panNo : data.panNo ? data.panNo : "",
@@ -141,6 +143,12 @@ const EditDetails = () => {
 									</p>
 									<p className="text-xl lg:text-2xl font-semibold">
 										Service Field : {data.serviceField}
+									</p>
+									<p className="text-xl lg:text-2xl font-semibold">
+										Currently Employed : {data.currentEMP ? data.currentEMP : "N/A"}
+									</p>
+									<p className="text-xl lg:text-2xl font-semibold">
+										D/O Joining. : {data.DOJ ? data.DOJ : "N/A"}
 									</p>
 								</div>
 
@@ -289,6 +297,25 @@ const EditDetails = () => {
 											</select>
 										</div>
 									</div>
+
+									<div className="text-xl lg:text-2xl flex items-center font-semibold">
+										<span className="mr-5">Currently Employed : </span>
+										<div className="field">                              {/*Current EMP*/}
+											<input
+												required
+												autoComplete='off'
+												name="currentEMP"
+												placeholder={data.currentEMP}
+												className="input-field"
+												type="text"
+												value={details.currentEMP}
+												onChange={(e) =>
+													setDetails({ ...details, currentEMP: e.target.value })
+												}
+											/>
+										</div>
+									</div>
+
 								</div>
 
 
