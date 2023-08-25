@@ -8,7 +8,6 @@ import { useSearchParams } from 'next/navigation'
 import Loader from "../../../components/Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ReactPaginate from 'react-paginate';
 import "./load.css";
 
 const Data = () => {
