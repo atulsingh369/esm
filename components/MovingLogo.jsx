@@ -18,10 +18,17 @@ const MovingLogo = () => {
       }
     );
 
+    var temp;
+    for (let i = 0; i < data.length / 2; i++) {
+      temp = data[i];
+      data[i] = data[data.length - 1 - i];
+      data[data.length - 1 - i] = temp;
+    }
+
     return () => {
       unsubscribe;
     };
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -39,16 +46,16 @@ const MovingLogo = () => {
   return (
     <div className="logo-parent-container">
       <div className="logo-container" ref={containerRef}>
-        <h1 className="text-2xl font-semibold px-24 whitespace-nowrap">
-          Notices
-        </h1>
-        {data.map((item, index) => (
-          <li
-            key={index}
-            className="text-justify px-24 whitespace-nowrap text-lg tracking-wider  ">
-            {item.Date}&nbsp;&nbsp;:&nbsp;&nbsp;{item.Notice}
-          </li>
-        ))}
+        {data.map(
+          (item, index) =>
+            index < 5 && (
+              <li
+                key={index}
+                className="text-justify px-24 whitespace-nowrap text-lg tracking-wider  ">
+                {item.Date}&nbsp;&nbsp;:&nbsp;&nbsp;{item.Notice}
+              </li>
+            )
+        )}
       </div>
     </div>
   );

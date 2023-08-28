@@ -12,6 +12,7 @@ import "./load.css";
 import { useSearchParams } from "next/navigation";
 import Loader from "../../../components/Loader";
 import Link from "next/link";
+import moment from "moment";
 
 const Admin = () => {
 	const [loading, setLoading] = useState(false);  // Loading/Unloading
@@ -279,11 +280,12 @@ const Admin = () => {
 			}
 
 			// Getting Date
-			var date = new Date().toISOString().split("T")[0]
+			var date = new Date();
 
-			await setDoc(doc(db, "notices", date), {
+			await setDoc(doc(db, "notices", date.toISOString().split("T")[0]), {
 				Notice: note,
-				Date: date,
+				Date: moment().format("Do MMM YYYY"),
+				timeStamp: date.getTime(),
 			});
 
 			setNote("");

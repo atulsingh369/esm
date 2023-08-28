@@ -12,10 +12,10 @@ import { BiCurrentLocation } from 'react-icons/bi';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import FuncNavbar from "../../../components/FuncNavabr";
 import Footer from "../../../components/Footer";
-import Image from "next/image";
 import Loader from "../../../components/Loader";
 import { useEffect } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 const RegisterForm = () => {
 	const [loading, setLoading] = useState(false);
@@ -35,6 +35,7 @@ const RegisterForm = () => {
 	const [image1, setImage1] = useState(null);
 	const [image2, setImage2] = useState(null);
 	const [curUser, setCurUser] = useState({
+		name: "",
 		email: "",
 		password: "",
 	});
@@ -259,8 +260,35 @@ const RegisterForm = () => {
 				timeStamp: timestamp,
 			});
 
-			setHome(true);
 			toast.success("Photo Uploaded Succesfully");
+			setHome(true);
+
+			// const sheetData = {
+			// 	"REG NO": regNo1 + 1,
+			// 	SERVICE: details.serviceField,
+			// 	"SERVICE NO": details.serviceNo,
+			// 	NAME: curUser.name,
+			// 	"FATHER NAME": details.fatherName,
+			// 	EMAIL: curUser.email,
+			// 	DOB: details.DOB,
+			// 	"JOINING DATE": details.DOJ,
+			// 	"MBL NO": details.phoneNo,
+			// 	"CURRENT EMP": details.currentEMP,
+			// 	"AADHAR NO": aadharNo,
+			// 	ADDRESS: details.address,
+			// 	"TEMP ADD": details.tempAdd,
+			// 	"PAN NO": details.panNo,
+			// };
+
+			// await axios.post(
+			// 	'https://sheet.best/api/sheets/b37ad7c9-f3f0-44a9-9752-b995b2986b56',
+			// 	JSON.stringify(sheetData),
+			// 	{
+			// 		headers: {
+			// 			'Content-Type': 'application/json'
+			// 		}
+			// 	}).then(res => toast.success(res))
+
 
 		} catch (error) {
 			toast.error(error.message);
@@ -512,6 +540,8 @@ const RegisterForm = () => {
 														<path d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z" />
 													</svg>
 
+													<span>&nbsp;DOB&nbsp;&nbsp;</span>
+
 													<input
 														name="DOB"
 														required
@@ -535,6 +565,8 @@ const RegisterForm = () => {
 														viewBox="0 0 448 512">
 														<path d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z" />
 													</svg>
+
+													<span>&nbsp;DOJ&nbsp;&nbsp;</span>
 
 													<input
 														name="DOJ"
