@@ -27,7 +27,7 @@ const Data = () => {
 	const indexOfLastRecord = currentPage * recordsPerPage;
 	const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 
-	const scriptUrl = "https://script.google.com/macros/s/AKfycbzIemPpO7ypNErRfchRVG-fKRDsGfrhuPYpBsgr5XM7gTET47HQBniEwy9rTiJzTq4_/exec"
+	const scriptUrl = "https://sheet.best/api/sheets/92fe253d-59c6-4b9b-a7b6-afa437358c52"
 
 	// Getting Members Data
 	useEffect(() => {
@@ -35,36 +35,11 @@ const Data = () => {
 			query(collection(db, "users"), where("RegNo", "!=", 0)),
 			(querySnapshot) => querySnapshot.forEach((doc) => {
 				setData(data => [...data, doc.data()]);
-				axios.post(scriptUrl,
-					{
-						"REG NO": doc.data().RegNO,
-						SERVICE: doc.data().serviceField,
-						"SERVICE NO": doc.data().serviceNo,
-						NAME: doc.data().name,
-						"FATHER NAME": doc.data().fatherName,
-						EMAIL: doc.data().email,
-						DOB: doc.data().DOB,
-						"JOINING DATE": doc.data().DOJ,
-						"MBL NO": doc.data().phoneNo,
-						"CURRENT EMP": doc.data().currentEMP,
-						"AADHAR NO": doc.data().aadharNo,
-						ADDRESS: doc.data().address,
-						"TEMP ADD": doc.data().tempAdd,
-						"PAN NO": doc.data().panNo,
-					}, {
-					headers: {
-						"Content-Type": "application/json",
-					},
-					mode: "cors",
-				})
-					.then((res) => {
-						// The response comes here
-						console.log(res);
+
+				axios.post(scriptUrl, doc.data())
+					.then(response => {
+						console.log(response);
 					})
-					.catch((error) => {
-						// Errors are reported there
-						console.log(error);
-					});
 			})
 		);
 
