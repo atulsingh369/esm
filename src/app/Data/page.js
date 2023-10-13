@@ -117,7 +117,7 @@ const Data = () => {
 
 					<FuncNavbar />
 
-					{user && user.role == "admin" ?
+					{user || user.role != "admin" ?
 						<div id="data" className="px-5 print:text-black">
 							<div className="flex justify-evenly items-center">
 								<img
