@@ -27,6 +27,7 @@ const Data = () => {
 	const indexOfLastRecord = currentPage * recordsPerPage;
 	const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 
+	const scriptUrl = "https://script.google.com/macros/s/AKfycbzIemPpO7ypNErRfchRVG-fKRDsGfrhuPYpBsgr5XM7gTET47HQBniEwy9rTiJzTq4_/exec"
 
 	// Getting Members Data
 	useEffect(() => {
@@ -34,36 +35,36 @@ const Data = () => {
 			query(collection(db, "users"), where("RegNo", "!=", 0)),
 			(querySnapshot) => querySnapshot.forEach((doc) => {
 				setData(data => [...data, doc.data()]);
-				// axios.post("https://sheet.best/api/sheets/b37ad7c9-f3f0-44a9-9752-b995b2986b56",
-				// 	{
-				// 		"REG NO": doc.data().RegNO,
-				// 		SERVICE: doc.data().serviceField,
-				// 		"SERVICE NO": doc.data().serviceNo,
-				// 		NAME: doc.data().name,
-				// 		"FATHER NAME": doc.data().fatherName,
-				// 		EMAIL: doc.data().email,
-				// 		DOB: doc.data().DOB,
-				// 		"JOINING DATE": doc.data().DOJ,
-				// 		"MBL NO": doc.data().phoneNo,
-				// 		"CURRENT EMP": doc.data().currentEMP,
-				// 		"AADHAR NO": doc.data().aadharNo,
-				// 		ADDRESS: doc.data().address,
-				// 		"TEMP ADD": doc.data().tempAdd,
-				// 		"PAN NO": doc.data().panNo,
-				// 	}, {
-				// 	headers: {
-				// 		"Content-Type": "application/json",
-				// 	},
-				// 	mode: "cors",
-				// })
-				// 	.then((res) => {
-				// 		// The response comes here
-				// 		console.log(res);
-				// 	})
-				// 	.catch((error) => {
-				// 		// Errors are reported there
-				// 		console.log(error);
-				// 	});
+				axios.post(scriptUrl,
+					{
+						"REG NO": doc.data().RegNO,
+						SERVICE: doc.data().serviceField,
+						"SERVICE NO": doc.data().serviceNo,
+						NAME: doc.data().name,
+						"FATHER NAME": doc.data().fatherName,
+						EMAIL: doc.data().email,
+						DOB: doc.data().DOB,
+						"JOINING DATE": doc.data().DOJ,
+						"MBL NO": doc.data().phoneNo,
+						"CURRENT EMP": doc.data().currentEMP,
+						"AADHAR NO": doc.data().aadharNo,
+						ADDRESS: doc.data().address,
+						"TEMP ADD": doc.data().tempAdd,
+						"PAN NO": doc.data().panNo,
+					}, {
+					headers: {
+						"Content-Type": "application/json",
+					},
+					mode: "cors",
+				})
+					.then((res) => {
+						// The response comes here
+						console.log(res);
+					})
+					.catch((error) => {
+						// Errors are reported there
+						console.log(error);
+					});
 			})
 		);
 
